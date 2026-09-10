@@ -14,15 +14,15 @@
   ],
   "author": {
     "name": "shiwu",
-    "url": "https://github.com/shiwu"
+    "url": "https://github.com/lingstudy-J"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shiwu/dsh-skin-beach-chatgpt.git"
+    "url": "git+https://github.com/lingstudy-J/dsh-skin-beach-chatgpt.git"
   },
-  "homepage": "https://github.com/shiwu/dsh-skin-beach-chatgpt#readme",
+  "homepage": "https://github.com/lingstudy-J/dsh-skin-beach-chatgpt#readme",
   "bugs": {
-    "url": "https://github.com/shiwu/dsh-skin-beach-chatgpt/issues"
+    "url": "https://github.com/lingstudy-J/dsh-skin-beach-chatgpt/issues"
   },
   "type": "module",
   "main": "lib/index.js",
@@ -35,7 +35,7 @@
   "dsh": {
     "id": "dsh-skin-beach-chatgpt",
     "name": "海边 ChatGPT 娘",
-    "repo": "shiwu/dsh-skin-beach-chatgpt",
+    "repo": "lingstudy-J/dsh-skin-beach-chatgpt",
     "client": {
       "inject": [],
       "platform": "web",

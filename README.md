@@ -90,13 +90,13 @@ chmod +x install.sh && ./install.sh
 `dsh` 自带插件管理命令，它把参数转发给 profile 目录里的 pnpm，并按安装结果自动把声明了 `dsh.bundle` 的依赖加进 `dsh.profile.bundles`：
 
 ```sh
-# 从 GitHub 直装（作者仓库：shiwu/dsh-skin-beach-chatgpt）
-dsh plugin --profile web add github:shiwu/dsh-skin-beach-chatgpt
+# 从 GitHub 直装（作者仓库：lingstudy-J/dsh-skin-beach-chatgpt）
+dsh plugin --profile web add github:lingstudy-J/dsh-skin-beach-chatgpt
 ```
 
 ```powershell
 # Windows PowerShell：git 形式的 spec 建议加引号
-dsh plugin --profile web add 'github:shiwu/dsh-skin-beach-chatgpt'
+dsh plugin --profile web add 'github:lingstudy-J/dsh-skin-beach-chatgpt'
 ```
 
 > 桌面端（`dsh --profile desktop`）把 `web` 换成 `desktop` 即可。
@@ -291,7 +291,7 @@ profile package.json
 
 ## 作者
 
-**shiwu** · GitHub [@shiwu](https://github.com/shiwu) · 仓库 [shiwu/dsh-skin-beach-chatgpt](https://github.com/shiwu/dsh-skin-beach-chatgpt)
+**shiwu** · GitHub [@lingstudy-J](https://github.com/lingstudy-J) · 仓库 [lingstudy-J/dsh-skin-beach-chatgpt](https://github.com/lingstudy-J/dsh-skin-beach-chatgpt)
 
 问题、建议与皮肤投稿请走仓库的 Issues / Pull Requests。Fork 之后要换成自己的署名，改这几处即可：`package.json` 的 `author`、`repository`、`homepage`、`bugs` 与 `dsh.repo`，以及 `skin.json` 的 `author`（`skin.json` 的 `package` 是包名，与 `package.json` 的 `name` 保持一致即可）。
 

@@ -54,7 +54,7 @@ to keep the other skins enabled.
 ### B. `dsh plugin` from GitHub
 
 ```sh
-dsh plugin --profile web add github:shiwu/dsh-skin-beach-chatgpt
+dsh plugin --profile web add github:lingstudy-J/dsh-skin-beach-chatgpt
 ```
 
 ### C. Manual
@@ -148,7 +148,7 @@ scripts/          build.mjs (bundler) · configure.mjs (installer)
 
 ## Author
 
-**shiwu** · GitHub [@shiwu](https://github.com/shiwu) · repository [shiwu/dsh-skin-beach-chatgpt](https://github.com/shiwu/dsh-skin-beach-chatgpt)
+**shiwu** · GitHub [@lingstudy-J](https://github.com/lingstudy-J) · repository [lingstudy-J/dsh-skin-beach-chatgpt](https://github.com/lingstudy-J/dsh-skin-beach-chatgpt)
 
 Issues and pull requests are welcome. When forking, replace `author`, `repository`, `homepage`, `bugs` and `dsh.repo` in `package.json` plus `author` in `skin.json` (keep `skin.json`'s `package` equal to `package.json`'s `name`).
 

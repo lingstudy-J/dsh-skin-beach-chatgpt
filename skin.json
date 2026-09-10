@@ -3,6 +3,7 @@
   "name": "海边 ChatGPT 娘",
   "nameEn": "Seaside ChatGPT-chan",
   "author": "shiwu",
+  "authorUrl": "https://github.com/lingstudy-J",
   "tagline": "4K 海边壁纸 + 玻璃拟态面板 + 落日暖色强调",
   "description": "把一张 4K 海边壁纸变成 DeepSeek Harness Web GUI 的整页皮肤：壁纸铺满视口，侧栏、顶栏、输入器与气泡改为半透明玻璃层，并按亮/暗主题分别套用海蓝与暮色的语义色板。纯展示层实现，卸载即复原。",
   "tags": [
