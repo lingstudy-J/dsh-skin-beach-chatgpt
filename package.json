@@ -1,0 +1,75 @@
+{
+  "name": "dsh-client-ui-skin-beach-chatgpt",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Seaside ChatGPT-chan — a wallpaper skin plugin for the DeepSeek Harness Web GUI: a 4K beach backdrop with glassmorphic panels, warm sunset accents and matching light/dark themes.",
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "dsh-skin",
+    "skin",
+    "theme",
+    "wallpaper"
+  ],
+  "author": {
+    "name": "shiwu",
+    "url": "https://github.com/shiwu"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shiwu/dsh-skin-beach-chatgpt.git"
+  },
+  "homepage": "https://github.com/shiwu/dsh-skin-beach-chatgpt#readme",
+  "bugs": {
+    "url": "https://github.com/shiwu/dsh-skin-beach-chatgpt/issues"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./skin.json": "./skin.json",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "id": "dsh-skin-beach-chatgpt",
+    "name": "海边 ChatGPT 娘",
+    "repo": "shiwu/dsh-skin-beach-chatgpt",
+    "client": {
+      "inject": [],
+      "platform": "web",
+      "immediately": true
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node --check lib/index.js && node --check lib/client.js",
+    "test": "node tests/smoke.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "cordis.patch.yml",
+    "skin.json",
+    "assets",
+    "preview",
+    "scripts",
+    "src",
+    "tests",
+    "install.sh",
+    "install.ps1",
+    "uninstall.sh",
+    "uninstall.ps1",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
+  "license": "MIT"
+}

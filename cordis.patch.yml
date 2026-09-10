@@ -1,0 +1,14 @@
+# 海边 ChatGPT 娘 · dsh bundle patch
+#
+# 本文件是插件的"名册层"：profile 的 `dsh.profile.bundles` 里列出本包后，
+# DSH 会把这个 patch 叠加进配置树，从而插入下面这条浏览器插件行。
+#
+# 行 id  `ui-skin-beach-chatgpt` 是互斥切换（皮肤管理器 / 手工 patch）使用的句柄：
+# 在更高层的 patch（例如 $DSH_HOME/cordis.patch.yml）里写
+#   - id: ui-skin-beach-chatgpt
+#     disabled: true
+# 即可停用本皮肤而无需卸载。
+
+- insert:
+    - id: ui-skin-beach-chatgpt
+      name: dsh-client-ui-skin-beach-chatgpt
