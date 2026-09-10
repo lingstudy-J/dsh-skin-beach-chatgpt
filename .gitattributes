@@ -1,0 +1,15 @@
+# 跨平台换行约定：仓库里一律存 LF。
+# 没有这一条时，Windows 上检出会把 install.sh 变成 CRLF，
+# 到 macOS / Linux 上执行就会报 "/bin/bash^M: bad interpreter"。
+* text=auto eol=lf
+
+*.sh text eol=lf
+*.ps1 text eol=crlf
+
+# 二进制资源不做换行转换
+*.webp binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
