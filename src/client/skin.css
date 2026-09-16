@@ -40,10 +40,13 @@ body[data-dsh-beach-chatgpt] {
   /* ── 面层：象牙白玻璃 + 鼠尾草绿点缀 ───────────────────── */
   --beach-veil: rgba(26, 52, 54, 0.06);      /* 壁纸之上的一层极轻灰青薄雾 */
   --beach-sidebar-rgb: 239 243 240;          /* 侧栏是漂浮在壁纸上的玻璃菜单 */
-  --beach-sidebar-ink: #31494a;
-  --beach-sidebar-hover: rgba(226, 238, 233, 0.42);
-  --beach-sidebar-active: rgba(212, 231, 224, 0.58);
-  --beach-sidebar-active-ink: #1e3a39;
+  --beach-sidebar-ink: #24383a;        /* 会话名 / 项目名 */
+  --beach-sidebar-muted: #647779;      /* 时间、状态等次要信息 */
+  --beach-sidebar-group: #596d6e;      /* 分组标题 */
+  --beach-sidebar-icon: #4f6667;       /* 文件夹与功能图标 */
+  --beach-sidebar-hover: rgba(226, 238, 233, 0.46);
+  --beach-sidebar-active: rgba(212, 231, 224, 0.62);
+  --beach-sidebar-active-ink: #1f3435;
   --beach-bubble-user: rgba(218, 234, 229, 0.78);   /* 用户消息：薄荷绿 */
   --beach-bubble-user-ink: #203638;
   --beach-ink-h3: #243c3e;                   /* 小标题 */
@@ -138,9 +141,12 @@ body[data-dsh-beach-chatgpt][data-ds-dark-theme] {
 
   --beach-veil: rgba(6, 16, 17, 0.20);
   --beach-sidebar-rgb: 22 34 36;
-  --beach-sidebar-ink: #dce6e4;
-  --beach-sidebar-hover: rgba(82, 124, 117, 0.22);
-  --beach-sidebar-active: rgba(82, 124, 117, 0.42);
+  --beach-sidebar-ink: #e4ecea;
+  --beach-sidebar-muted: #a8bab8;
+  --beach-sidebar-group: #b3c4c2;
+  --beach-sidebar-icon: #9fb5b0;
+  --beach-sidebar-hover: rgba(82, 124, 117, 0.26);
+  --beach-sidebar-active: rgba(82, 124, 117, 0.46);
   --beach-sidebar-active-ink: #ffffff;
   --beach-bubble-user: rgba(46, 74, 70, 0.72);
   --beach-bubble-user-ink: #e8edec;
@@ -316,6 +322,52 @@ body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) {
   box-shadow:
     inset -1px 0 rgba(82, 124, 117, 0.10),
     4px 0 18px rgba(38, 56, 58, 0.035);
+}
+
+/* ── 会话列表：把语义 token 就地重绑，并给列表区一层极轻的局部承托 ──
+   ui-workspace 的 Rows.module.css 里，会话名 / 时间 / 图标 / 分组标题
+   全部读 label-* 这几支 token，所以在列表容器上重绑它们就够了，不必去猜
+   会话行的哈希类名。作用域收在 [class*="listArea"] 内 —— 侧栏里的设置弹框
+   不在这个容器里，因此不会被牵连。
+   承托用的是 18% → 10% 的竖向渐变，只为让文字下面那一片背景安静下来，
+   不是加白底板；整个侧栏的玻璃感不变。 */
+body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) [class*="listArea"] {
+  --dsw-alias-label-primary: var(--beach-sidebar-ink);
+  --dsw-alias-label-secondary: var(--beach-sidebar-group);
+  --dsw-alias-label-tertiary: var(--beach-sidebar-muted);
+  --dsw-alias-label-caption: var(--beach-sidebar-muted);
+  --dsw-alias-label-dimmed: var(--beach-sidebar-muted);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(242, 246, 243, 0.18),
+    rgba(242, 246, 243, 0.10)
+  );
+}
+
+/* 字重层次：会话名 500、分组标题 500、选中 600。用 ARIA 角色定位，
+   不用 class 猜测。 */
+body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) [role="treeitem"] {
+  font-weight: 500;
+}
+
+body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) :is(
+  [class*="groupSection"],
+  [class*="projectText"]
+) {
+  color: var(--beach-sidebar-group);
+  font-weight: 500;
+}
+
+/* 图标与行内动作：略提对比度，hover 收到链接青绿上，和强调色同一套语言。 */
+body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) :is(
+  [class*="iconButton"],
+  [class*="rowActions"]
+) {
+  color: var(--beach-sidebar-icon);
+}
+
+body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) [class*="iconButton"]:hover {
+  color: var(--beach-link);
 }
 
 /* 选中项/悬停态是交互反馈，不能被上面的透明规则抹掉。 */
