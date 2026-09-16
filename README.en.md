@@ -197,7 +197,7 @@ The skin ships its own panel — no extra plugin required.
 
 ![skinpanel](preview/skinpanel.webp)
 
-**Entry**: the 🌊 button in the bottom-right corner, or <kbd>Alt</kbd>+<kbd>B</kbd>. **On a fresh install (no stored settings yet) the panel opens itself once** and then stays out of the way. The entry button is always visible — there used to be a "hide entry" switch, but it was a self-locking trap: hiding the entry leaves only the shortcut, and it sat right next to a slider, so dragging could hit it by accident. Changes apply instantly and persist in `localStorage` (key `dsh-skin-beach-chatgpt:settings:v2`).
+**Entry**: the 🌊 button in the bottom-right corner, or <kbd>Alt</kbd>+<kbd>B</kbd>. **On a fresh install (no stored settings yet) the panel opens itself once** and then stays out of the way. The entry button is always visible — there used to be a "hide entry" switch, but it was a self-locking trap: hiding the entry leaves only the shortcut, and it sat right next to a slider, so dragging could hit it by accident. Changes apply instantly and persist in `localStorage` (key `dsh-skin-beach-chatgpt:settings:v3`).
 
 | Setting | Range | Default | Notes |
 | --- | --- | --- | --- |

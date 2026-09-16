@@ -198,7 +198,7 @@ chmod +x uninstall.sh && ./uninstall.sh
 
 ![skinpanel](preview/skinpanel.webp)
 
-**入口**：右下角 🌊 悬浮按钮，或 <kbd>Alt</kbd>+<kbd>B</kbd>。**首次安装（本地还没有设置记录）时面板会自动展开一次**，之后不再打扰。入口按钮恒定显示（曾经有过"隐藏入口"的开关，那是个自锁陷阱：藏起入口后就只剩快捷键，而且它挨着滑杆，拖动时很容易被误触）。改动即时生效，并写进浏览器 `localStorage`（键 `dsh-skin-beach-chatgpt:settings:v2`），刷新后保留。
+**入口**：右下角 🌊 悬浮按钮，或 <kbd>Alt</kbd>+<kbd>B</kbd>。**首次安装（本地还没有设置记录）时面板会自动展开一次**，之后不再打扰。入口按钮恒定显示（曾经有过"隐藏入口"的开关，那是个自锁陷阱：藏起入口后就只剩快捷键，而且它挨着滑杆，拖动时很容易被误触）。改动即时生效，并写进浏览器 `localStorage`（键 `dsh-skin-beach-chatgpt:settings:v3`），刷新后保留。
 
 | 设置项 | 取值 | 默认 | 说明 |
 | --- | --- | --- | --- |

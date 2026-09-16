@@ -183,7 +183,7 @@ clickByText('完整显示')
 check('铺满方式', body.style.getPropertyValue('--beach-art-size'), 'contain')
 
 // ── 持久化与还原 ─────────────────────────────────────────────
-const stored = JSON.parse(window.localStorage.getItem('dsh-skin-beach-chatgpt:settings:v2'))
+const stored = JSON.parse(window.localStorage.getItem('dsh-skin-beach-chatgpt:settings:v3'))
 check('设置已持久化', stored?.text, 'custom')
 check('自定义色已持久化', stored?.customInk, '#336699')
 check('正文底衬已持久化', stored?.textScrim, 40)
