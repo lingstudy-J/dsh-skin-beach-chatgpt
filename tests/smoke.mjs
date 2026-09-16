@@ -120,6 +120,7 @@ check('底部 fade 绑到侧栏自身玻璃色', styleText.includes('--dsw-speci
 check('分组规则不再命中 projectText', styleText.includes('[class*="projectText"]'), false)
 check('局部承托只作用在 listArea', /\[class\*="listArea"\][^{]*\{[^}]*linear-gradient/s.test(styleText), true)
 check('侧栏字重用的是 treeitem 角色', styleText.includes('[role="treeitem"] {'), true)
+check('时间文字保持 400 字重', /\[class\*="time"\][^{]*\{[^}]*font-weight: 400/.test(styleText), true)
 check('整页遮罩已减薄', styleText.includes('0.16 * var(--beach-scrim-strength)'), true)
 check('文字白晕收到 0.20', styleText.includes('rgba(255, 255, 255, 0.20)'), true)
 check('标题不吃阴影', /:is\(h1, h2, h3, h4, h5, h6\)\s*\{[^}]*text-shadow: none/.test(styleText), true)

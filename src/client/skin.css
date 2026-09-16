@@ -355,6 +355,16 @@ body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) [
   font-weight: 500;
 }
 
+/* 时间/状态这类次要信息必须留在 400：上面那条给整行设了 500，而它们自己
+   没有 font-weight，会连带被加粗（实测 computed 为 500）。这里按元素收回。 */
+body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) :is(
+  [class*="time"],
+  [class*="meta"],
+  [class*="scheduleIndicator"]
+) {
+  font-weight: 400;
+}
+
 /* 只给分组区标题（"未分组""工作区"这类）。曾经把 .projectText 也列进来，
    但它是项目行的**文字容器**、不是文字本身：给它设色会让项目名继承到
    --beach-sidebar-group，于是"ranking-node-manage-server"这种项目名整体
