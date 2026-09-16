@@ -73,12 +73,12 @@ const PANEL_CSS = `
   border-radius: 50%;
   color: var(--beach-ink, #14303f);
   background-color: var(--beach-surface-solid, rgba(255, 253, 248, 0.95));
-  border: 0.5px solid var(--beach-line, rgba(47, 134, 173, 0.26));
+  border: 0.5px solid var(--beach-line, rgba(55, 86, 87, 0.20));
   box-shadow: var(--beach-shadow, 0 18px 44px rgba(14, 45, 64, 0.16));
 }
 
 .dsh-beach-launcher:hover {
-  color: var(--beach-sea, #2f86ad);
+  color: var(--beach-sea, #527c75);
 }
 
 .dsh-beach-panel {
@@ -90,9 +90,9 @@ const PANEL_CSS = `
   border-radius: 14px;
   color: var(--beach-ink, #14303f);
   background-color: var(--beach-surface-solid, rgba(255, 253, 248, 0.95));
-  border: 0.5px solid var(--beach-line, rgba(47, 134, 173, 0.26));
+  border: 0.5px solid var(--beach-line, rgba(55, 86, 87, 0.20));
   box-shadow: var(--beach-shadow, 0 18px 44px rgba(14, 45, 64, 0.16));
-  scrollbar-color: var(--beach-scroll-thumb, rgba(47, 134, 173, 0.36)) transparent;
+  scrollbar-color: var(--beach-scroll-thumb, rgba(82, 124, 117, 0.36)) transparent;
 }
 
 .dsh-beach-panel[hidden] {
@@ -119,7 +119,7 @@ const PANEL_CSS = `
 }
 
 .dsh-beach-row-head b {
-  color: var(--beach-sea, #2f86ad);
+  color: var(--beach-sea, #527c75);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -129,7 +129,7 @@ input[type="range"] {
   height: 24px;
   margin: 0;
   cursor: pointer;
-  accent-color: var(--beach-sea, #2f86ad);
+  accent-color: var(--beach-sea, #527c75);
   touch-action: none;
 }
 
@@ -145,8 +145,8 @@ input[type="url"] {
   padding: 5px 7px;
   font: inherit;
   color: inherit;
-  background-color: rgba(127, 127, 127, 0.08);
-  border: 0.5px solid var(--beach-line, rgba(47, 134, 173, 0.26));
+  background-color: rgba(82, 124, 117, 0.07);
+  border: 0.5px solid var(--beach-line, rgba(55, 86, 87, 0.20));
   border-radius: 8px;
 }
 
@@ -162,7 +162,7 @@ input[type="url"] {
   padding: 0;
   cursor: pointer;
   background: none;
-  border: 0.5px solid var(--beach-line, rgba(47, 134, 173, 0.26));
+  border: 0.5px solid var(--beach-line, rgba(55, 86, 87, 0.20));
   border-radius: 8px;
 }
 
@@ -184,14 +184,14 @@ button {
   cursor: pointer;
   font: inherit;
   color: var(--beach-ink-soft, #40606f);
-  background-color: rgba(127, 127, 127, 0.08);
-  border: 0.5px solid var(--beach-line, rgba(47, 134, 173, 0.26));
+  background-color: rgba(82, 124, 117, 0.07);
+  border: 0.5px solid var(--beach-line, rgba(55, 86, 87, 0.20));
   border-radius: 8px;
 }
 
 button:hover {
-  color: var(--beach-sea, #2f86ad);
-  border-color: var(--beach-sea, #2f86ad);
+  color: var(--beach-sea, #527c75);
+  border-color: var(--beach-sea, #527c75);
 }
 
 .dsh-beach-seg {
@@ -207,8 +207,8 @@ button:hover {
 
 .dsh-beach-seg button[aria-pressed="true"] {
   color: var(--beach-ink, #14303f);
-  border-color: var(--beach-sea, #2f86ad);
-  background-color: rgba(47, 134, 173, 0.18);
+  border-color: var(--beach-sea, #527c75);
+  background-color: rgba(212, 231, 224, 0.58);
 }
 
 .dsh-beach-swatches {
@@ -236,7 +236,7 @@ button:hover {
   gap: 8px;
   margin-top: 12px;
   padding-top: 10px;
-  border-top: 0.5px solid var(--beach-line, rgba(47, 134, 173, 0.26));
+  border-top: 0.5px solid var(--beach-line, rgba(55, 86, 87, 0.20));
 }
 
 .dsh-beach-hint {
@@ -252,7 +252,7 @@ const TEXT_PRESETS = [
 ];
 
 const ACCENT_PRESETS = [
-  { value: "sea", label: "海蓝", swatch: "#2f86ad" },
+  { value: "sea", label: "青灰", swatch: "#527c75" },
   { value: "sunset", label: "落日", swatch: "#e08a4e" },
   { value: "mint", label: "薄荷", swatch: "#2f9d8f" },
   { value: "sakura", label: "樱粉", swatch: "#c2618b" },

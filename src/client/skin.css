@@ -68,7 +68,7 @@ body[data-dsh-beach-chatgpt] {
   --beach-scrim-strength: 1;
   --beach-panel-blur: calc(var(--beach-blur) * 0.6);
   /* 皮肤自带的面板/入口恒定可读，不跟随"面板实度"旋钮。 */
-  --beach-surface-solid: rgb(var(--beach-glass-rgb) / 0.95);
+  --beach-surface-solid: rgb(var(--beach-glass-rgb) / 0.92);
 
   /* 输入框单独一层、且默认接近不透明：它是浮在会话滚动区之上的，
      半透明会让滚上来的历史文字从卡片里透出来，和正在输入的文字糊在一起。 */
@@ -305,6 +305,12 @@ body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) :
 body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) {
   color: var(--beach-sidebar-ink);
   background-color: rgb(var(--beach-sidebar-rgb) / var(--beach-glass-alpha));
+  /* 左上"新会话"用的是官方 --dsw-alias-button-elevated-fill（纯白）与
+     --dsw-alias-border-l3，在这里就地换成同一支青灰玻璃：只影响侧栏内的
+     按钮，弹框与其它浮层的同名 token 不受影响。 */
+  --dsw-alias-button-elevated-fill: var(--beach-input-surface);
+  --dsw-alias-button-floating-hover: rgba(226, 238, 233, 0.62);
+  --dsw-alias-border-l3: rgba(82, 124, 117, 0.14);
   border-right: 0;
   /* 层次交给阴影：一条 1px 内描边 + 一层极淡的外投影，不靠加深背景。 */
   box-shadow:

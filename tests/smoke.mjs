@@ -70,10 +70,13 @@ for (const token of [
   '--dsw-alias-bg-layer-2',
   '--dsw-alias-bg-layer-3',
   '--dsw-alias-bg-overlay',
-  '--dsw-alias-button-elevated-fill',
 ]) {
   check(`不覆盖浮层 token ${token}`, styleText.includes(token), false)
 }
+// 按钮 token 是唯一被收编的：只允许在侧栏作用域内重绑（影响"新会话"等
+// 侧栏内按钮），绝不允许出现在全局基础块里——那样连弹框按钮一起改了。
+check('按钮 token 只在侧栏作用域重绑', /:is\([^{]*sidebarCol[^{]*\{[^}]*--dsw-alias-button-elevated-fill/.test(styleText), true)
+check('按钮 token 未在全局覆盖', /body\[data-dsh-beach-chatgpt\]\s*\{[^}]*--dsw-alias-button-elevated-fill/.test(styleText), false)
 // 代码块 / 终端 / 工具卡的颜色一律交还官方：它们的底色与文字色（含 shiki 高亮）
 // 必须由同一个来源成对给出，皮肤插手任何一边都会拆散这对配色。
 check('不覆盖代码块 token', /^\s*--dsw-alias-markdown-code-block:/m.test(styleText), false)
@@ -101,6 +104,7 @@ check('正文承托改用灰青白', styleText.includes('--beach-scrim-rgb: 235 
 check('渐变右侧明显更通透', styleText.includes('- 0.24'), true)
 check('正文区用横向渐变承托', /\[data-chat-flow\][^{]*\{[^}]*linear-gradient\(\s*90deg/s.test(styleText), true)
 check('侧栏层次靠阴影而非加深底色', styleText.includes('inset -1px 0 rgba(82, 124, 117, 0.10)'), true)
+check('侧栏按钮 token 就地换成青灰玻璃', styleText.includes('--dsw-alias-button-elevated-fill: var(--beach-input-surface)'), true)
 check('整页遮罩已减薄', styleText.includes('0.16 * var(--beach-scrim-strength)'), true)
 check('文字白晕收到 0.20', styleText.includes('rgba(255, 255, 255, 0.20)'), true)
 check('标题不吃阴影', /:is\(h1, h2, h3, h4, h5, h6\)\s*\{[^}]*text-shadow: none/.test(styleText), true)
