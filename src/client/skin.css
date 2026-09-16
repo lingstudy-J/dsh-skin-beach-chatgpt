@@ -58,10 +58,12 @@ body[data-dsh-beach-chatgpt] {
      玻璃基色与三个可调旋钮（设置面板写的就是这几个）。 */
   --beach-glass-rgb: 250 249 246;
   --beach-input-rgb: 248 247 242;
+  /* 正文承托单独用灰青白：贴合海水与鼠尾草绿，叠上去是"空气感"而不是白膜 */
+  --beach-scrim-rgb: 235 241 239;
   --beach-header-alpha: 0.40;
   --beach-glass-alpha: 0.57;
   --beach-panel-alpha: 0.82;
-  --beach-text-scrim: 0.66;
+  --beach-text-scrim: 0.56;
   --beach-blur: 20px;
   --beach-scrim-strength: 1;
   --beach-panel-blur: calc(var(--beach-blur) * 0.6);
@@ -80,13 +82,13 @@ body[data-dsh-beach-chatgpt] {
   --beach-shadow: 0 18px 44px rgba(23, 41, 44, 0.14), 0 2px 8px rgba(23, 41, 44, 0.09);
   --beach-scrim: linear-gradient(
     180deg,
-    rgb(250 249 246 / calc(0.22 * var(--beach-scrim-strength))) 0%,
-    rgb(232 240 238 / calc(0.38 * var(--beach-scrim-strength))) 100%
+    rgb(250 249 246 / calc(0.16 * var(--beach-scrim-strength))) 0%,
+    rgb(232 240 238 / calc(0.30 * var(--beach-scrim-strength))) 100%
   );
   --beach-scroll-thumb: rgba(82, 124, 117, 0.36);
   --beach-scroll-thumb-hover: rgba(34, 91, 88, 0.56);
   /* 极轻的一圈白晕：只在字与背景撞色时把字拎出来，不能有发光感。 */
-  --beach-text-shadow-color: rgba(255, 255, 255, 0.35);
+  --beach-text-shadow-color: rgba(255, 255, 255, 0.20);
 
   /* ── 允许覆盖的 DSH 语义 token（白名单） ─────────────────
      bg-base 透明 → 壁纸透出；其余是文字、边框、品牌色与滚动条。
@@ -149,9 +151,10 @@ body[data-dsh-beach-chatgpt][data-ds-dark-theme] {
   --beach-code-inline-bg: rgba(82, 124, 117, 0.28);
 
   --beach-glass-rgb: 20 32 34;
+  --beach-scrim-rgb: 18 30 32;
   --beach-glass-alpha: 0.68;
   --beach-panel-alpha: 0.80;
-  --beach-text-scrim: 0.76;
+  --beach-text-scrim: 0.56;
   --beach-input-alpha: 0.88;
 
   --beach-line: rgba(148, 190, 186, 0.24);
@@ -381,9 +384,9 @@ body[data-dsh-beach-chatgpt] [data-chat-flow] {
      三档都跟着"正文底衬"旋钮走，推高就是整体加重。 */
   background-image: linear-gradient(
     90deg,
-    rgb(var(--beach-glass-rgb) / clamp(0, calc(var(--beach-text-scrim, 0.66) + 0.06), 1)) 0%,
-    rgb(var(--beach-glass-rgb) / var(--beach-text-scrim, 0.66)) 48%,
-    rgb(var(--beach-glass-rgb) / clamp(0, calc(var(--beach-text-scrim, 0.66) - 0.14), 1)) 100%
+    rgb(var(--beach-scrim-rgb) / clamp(0, calc(var(--beach-text-scrim, 0.56) + 0.05), 1)) 0%,
+    rgb(var(--beach-scrim-rgb) / var(--beach-text-scrim, 0.56)) 48%,
+    rgb(var(--beach-scrim-rgb) / clamp(0, calc(var(--beach-text-scrim, 0.56) - 0.24), 1)) 100%
   );
   border: 0;
   border-radius: 14px;
@@ -396,6 +399,12 @@ body[data-dsh-beach-chatgpt][data-beach-text-shadow="on"] :is(
   [class*="userRow"] [class*="bubble"]
 ) {
   text-shadow: 0 1px 1px var(--beach-text-shadow-color);
+}
+
+/* 标题不吃阴影：整页标题加起来也是不小的一片白，层次交给 #17292C 本身。 */
+body[data-dsh-beach-chatgpt] :is([class*="markdown"], [data-chat-flow])
+  :is(h1, h2, h3, h4, h5, h6) {
+  text-shadow: none;
 }
 
 /* 占位文字与状态说明压到弱化档，不再跟着正文一起"发灰"。 */

@@ -10,7 +10,7 @@
  */
 
 /** localStorage 键；带版本号，便于日后无损迁移。 */
-export const SETTINGS_STORAGE_KEY = "dsh-skin-beach-chatgpt:settings:v4";
+export const SETTINGS_STORAGE_KEY = "dsh-skin-beach-chatgpt:settings:v5";
 
 /** 本地图片最长边上限：再大也只是徒增 localStorage 体积与解码开销。 */
 const IMPORTED_IMAGE_MAX_EDGE = 2560;
@@ -27,7 +27,7 @@ export const DEFAULT_SETTINGS = {
   text: "custom",
   customInk: "#26383a",
   customInkDark: "#e8edec",
-  textScrim: 66,
+  textScrim: 56,
   textShadow: true,
   accent: "sea",
   appearance: "auto",
