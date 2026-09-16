@@ -342,11 +342,28 @@ body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) [
   --dsw-alias-label-tertiary: var(--beach-sidebar-muted);
   --dsw-alias-label-caption: var(--beach-sidebar-muted);
   --dsw-alias-label-dimmed: var(--beach-sidebar-muted);
+  /* 承托：0.18 → 0.10 实测太弱，壁纸里的花朵、木架、文字板直接穿过列表文字。
+     提到 0.30 → 0.20 —— 仍是一层很薄的磨砂，不是白底板（上限约 0.36）。 */
   background-image: linear-gradient(
     to bottom,
-    rgba(242, 246, 243, 0.18),
-    rgba(242, 246, 243, 0.10)
+    rgba(242, 246, 243, 0.30),
+    rgba(242, 246, 243, 0.20)
   );
+  /* 4px 的轻背景模糊，只压掉文字背后的高频纹理（花朵/书本/木架的细线），
+     不制造可见的毛玻璃。它挂在 listArea 这个**容器背景层**上，
+     文字节点自身不参与任何 filter。范围 3–5px，不要做成 10px+。 */
+  backdrop-filter: blur(4px) saturate(0.92);
+  -webkit-backdrop-filter: blur(4px) saturate(0.92);
+}
+
+/* blur 会给 listArea 建立层叠上下文，列表内的菜单/重命名弹层会被限制在
+   这一层里；这里把它们的 z-index 抬到列表之上，保证仍然浮在最前。 */
+body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) [class*="listArea"] :is(
+  [role="menu"],
+  [role="dialog"],
+  [data-radix-popper-content-wrapper]
+) {
+  z-index: 2;
 }
 
 /* 字重层次：会话名 500、分组标题 500、选中 600。用 ARIA 角色定位，

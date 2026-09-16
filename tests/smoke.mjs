@@ -90,7 +90,7 @@ check('代码块只重绑组件圆角变量', styleText.includes('--dsl-code-blo
 check('代码块 banner 底色走组件变量', styleText.includes('--dsl-code-block-banner-background-color: rgba(242, 246, 243, 0.96)'), true)
 check('终端只重绑组件圆角变量', styleText.includes('--dsl-terminal-radius: 10px'), true)
 check('不覆盖 shiki 配色', /^\s*--shiki-/m.test(styleText), false)
-check('样式表不含生效的 backdrop-filter', /^\s*backdrop-filter:/m.test(styleText), false)
+check('backdrop-filter 只出现在 listArea', /^\s*backdrop-filter:/m.test(styleText) && /\[class\*="listArea"\][^{]*\{[^}]*backdrop-filter/s.test(styleText), true)
 check('样式表不含 filter: blur', /^\s*filter:\s*blur/m.test(styleText), false)
 
 // ── 终端外壳：容器感来自外框/顶栏，而不是动 output ─────────────
@@ -119,6 +119,10 @@ check('底部 fade 绑到侧栏自身玻璃色', styleText.includes('--dsw-speci
 // 分组规则不得再命中项目名的文字容器（否则项目名会整体淡一档）
 check('分组规则不再命中 projectText', styleText.includes('[class*="projectText"]'), false)
 check('局部承托只作用在 listArea', /\[class\*="listArea"\][^{]*\{[^}]*linear-gradient/s.test(styleText), true)
+check('列表承托提到 0.30 → 0.20', /\[class\*="listArea"\][^{]*\{[^}]*rgba\(242, 246, 243, 0\.30\)/s.test(styleText), true)
+check('listArea 有轻量背景模糊（4px）', /\[class\*="listArea"\][^{]*\{[^}]*backdrop-filter: blur\(4px\) saturate\(0\.92\)/s.test(styleText), true)
+check('背景模糊不落在行/文字节点上', /\[role="treeitem"\][^{]*\{[^}]*backdrop-filter/.test(styleText), false)
+check('背景模糊也没有铺到整个侧栏', /:is\(\[class\*="sidebarCol"\][^{]*\)\s*\{[^}]*backdrop-filter/.test(styleText), false)
 check('侧栏字重用的是 treeitem 角色', styleText.includes('[role="treeitem"] {'), true)
 check('时间文字保持 400 字重', /\[class\*="time"\][^{]*\{[^}]*font-weight: 400/.test(styleText), true)
 check('整页遮罩已减薄', styleText.includes('0.16 * var(--beach-scrim-strength)'), true)
@@ -129,7 +133,10 @@ check('命令用主文字色', /\[data-terminal\][^{]*\[class\*="command"\][^{]*
 check('路径用辅助色', /\[data-terminal\][^{]*\[class\*="cwd"\][^{]*\{[^}]*#6b7e7f/.test(styleText), true)
 check('不改写运行状态文字颜色', styleText.includes('runStateLabel'), false)
 check('不碰终端 output 的颜色', /\[class\*="output"\][^{]*\{[^}]*\b(color|background)/.test(styleText), false)
-check('侧栏规则不使用 backdrop-filter', /sidebarCol[^{]*\{[^}]*backdrop-filter/.test(styleText), false)
+// 契约更新：唯一允许 backdrop-filter 的地方是侧栏列表容器（4px 轻背景模糊，
+// 用来压掉文字背后的壁纸纹理）。侧栏列本身、顶栏、输入卡片仍然禁止——
+// 它们承载官方弹框，加模糊会把弹框压回该容器的层叠上下文。
+check('侧栏列本身不使用 backdrop-filter', /:is\(\[class\*="sidebarCol"\][^)]*\)\s*\{[^}]*backdrop-filter/.test(styleText), false)
 check('输入卡片不使用 backdrop-filter', /\[data-composer-card\]\s*\{[^}]*backdrop-filter/.test(styleText), false)
 check('侧栏透明规则放过弹框', /sidebarCol[\s\S]*?:not\(\[role="dialog"\]\)/.test(styleText), true)
 check('悬浮入口已挂载', shadowRoot().querySelectorAll('.dsh-beach-launcher').length, 1)
