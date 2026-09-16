@@ -16,7 +16,7 @@
 ## Features
 
 - **Full-page wallpaper** — the 4K original is downscaled to a 2560×1440 WebP and **inlined into the plugin bundle**: no temp files, remote URLs or asset server involved.
-- **One continuous backdrop** — the wallpaper is painted once on `body` (`fixed` + `cover`) and every layout column is transparent, so the sidebar and the conversation area share a single unbroken image instead of being cut into separate panels.
+- **One continuous wallpaper plus two adjustable glass layers** — the wallpaper is painted once on `body` (`fixed` + `cover`) and the layout columns stay transparent, so the image runs unbroken from sidebar to transcript; the transcript and the sidebar each carry an ivory glass layer (76% / 68% by default), which keeps the airy look while giving long-form reading a stable backing. A 6% grey-teal veil sits on top, only to tame the sky and sea highlights.
 - **Light and dark themes** — "morning sea" and "dusk sea" (the same wallpaper dimmed into dusk, with dark glass on the UI layer). The panel's **appearance** row offers **follow system** (default: both themes) or **always light**, which removes the host's dark marker so DSH renders light as well.
 - **Never touches DSH's own popovers** — the semantic tokens and stacking contexts behind the settings dialog, menus, toasts and code blocks stay official. The skin neither recolours their backgrounds nor puts `backdrop-filter` on a container that hosts a popover (that would pin the popover to the container's layer).
 - **Colours only, never layout** — no `display` / grid / size rules, so sidebar dragging, workbench push and window resizing behave exactly as before.
@@ -205,15 +205,15 @@ The skin ships its own panel — no extra plugin required.
 | Fit | cover / contain | cover | cover crops but fills; contain shows everything |
 | **Appearance** | follow system / always light | follow system | "always light" removes the host's dark marker so DSH renders light as well (restored on uninstall) |
 | Wallpaper | on / off | on | off keeps palette + glass only |
-| Sidebar glass | 0–100% | **0%** | fully transparent by default — the sidebar adds no colour of its own; raise it for a frosted look |
-| Panel glass | 30–100% | 88% | user bubbles, toolbars (the composer has its own row below) |
-| **Composer glass** | 80–100% | **97%** | the composer card floats above the transcript scroller; near-opaque by default — **raise it if scrolling back makes the input text hard to read** |
+| Sidebar glass | 0–100% | **68%** | sidebar glass, slightly more transparent than the transcript layer (it should not out-shout the text); 0 leaves the wallpaper alone |
+| Panel glass | 30–100% | **82%** | toolbars (bubbles and the composer have their own rows) |
+| **Composer glass** | 80–100% | **88%** | the composer floats above the transcript scroller and runs a bit more opaque than a normal card; **raise it if scrolling back bleeds text through** |
 | Backdrop blur | 0–32 px | 20 px | user bubbles only — containers that host official popovers never take `backdrop-filter`; 0 disables frosting |
 | Wallpaper scrim | 0–100% | 100% | the haze over the wallpaper; **raise it when text is hard to read** |
 | Text palette | cool / warm / high-contrast | cool | preset slot, separate values per theme; touching either colour picker below switches to "custom" |
 | **Custom text colour · light** | any `#RRGGBB` | `#14303f` | picking a colour switches to the custom slot; secondary/tertiary ink is derived from the same hue |
 | **Custom text colour · dark** | any `#RRGGBB` | `#eaf3f8` | stored **separately** from the light one: the dark theme dims the whole surface, so one colour cannot read well in both |
-| **Text backing** | 0–80% | 0% | a glass plate behind the transcript — **raise this first when text collides with the wallpaper** |
+| **Text backing** | 0–80% | **76%** | the ivory glass layer behind the transcript. **On by default** — text no longer sits directly on the photo; lower it to let more wallpaper through (72% is a sensible floor) |
 | Text shadow | on / off | on | a very light outline shadow (white halo on light themes, dark on dark) |
 | Accent | sea / sunset / mint / sakura | sea | links, focus rings, sliders, brand colour |
 
@@ -221,7 +221,7 @@ The skin ships its own panel — no extra plugin required.
 
 The wallpaper is a photograph, so local brightness is out of our control and collisions are inevitable. Try, in order:
 
-1. raise **text backing** (20–40% is usually enough) — it only pads the transcript with a glass plate and keeps the "one continuous backdrop" look;
+1. **text backing** — already on at 76%; push it to 80% if you still squint (higher starts hiding the wallpaper);
 2. switch the **text palette** preset, or pick a colour with a clearly different luminance in the **colour picker** — light and dark each have their **own picker**, stored separately, because the dark theme dims the whole surface;
 3. turn on **text shadow** (on by default);
 4. only then raise the **wallpaper scrim** — it is global and affects the whole picture.
@@ -255,8 +255,14 @@ The hues come from the grey-green ribbon in the wallpaper — body text is a dee
 | Soft accent (hover, tags, selection bg) | `--beach-accent-soft` | `#DCEAE6` | `rgba(82, 124, 117, 0.34)` |
 | Border | `--beach-line` | `rgba(55, 86, 87, 0.20)` | `rgba(148, 190, 186, 0.24)` |
 | Panel glass base | `--beach-glass-rgb` | `250 249 246` | `20 32 34` |
-| Code text | `--beach-code-ink` | `#F3F0E8` | `#F3F0E8` |
-| Code block background | `--dsw-alias-markdown-code-block` | `rgba(28, 40, 42, 0.92)` | `rgba(12, 20, 21, 0.92)` |
+| Sub-headings (h3–h6) | `--beach-ink-h3` | `#243C3E` | `#DCE6E4` |
+| Placeholder | `--beach-placeholder` | `#7D8E8F` | `#8FA0A0` |
+| User bubble bg / text | `--beach-bubble-user` / `-ink` | `rgba(218,234,229,.84)` / `#203638` | `rgba(46,74,70,.72)` / `#E8EDEC` |
+| Sidebar glass / text | `--beach-sidebar-rgb` / `-ink` | `238 242 239` / `#31494A` | `22 34 36` / `#DCE6E4` |
+| Sidebar selected / hover | `--beach-sidebar-active` / `-hover` | `rgba(183,211,203,.55)` / `rgba(214,228,223,.48)` | `rgba(82,124,117,.42)` / `rgba(82,124,117,.22)` |
+| Code block bg / text | `--dsw-alias-markdown-code-block` / `--beach-code-block-ink` | `rgba(28,40,42,.92)` / `#EDF2EE` | `rgba(12,20,21,.93)` / `#EDF2EE` |
+| Inline code / bg | `--beach-code-inline` / `-bg` | `#375F5A` / `rgba(207,225,219,.55)` | `#A8D5CE` / `rgba(82,124,117,.28)` |
+| Wallpaper veil | `--beach-veil` | `rgba(26,52,54,.06)` | `rgba(6,16,17,.20)` |
 
 Headings, links and code use dedicated rules (`--beach-ink-strong` / `--beach-link` / `--beach-code-ink`) instead of relying on an indirect token mapping.
 

@@ -17,17 +17,17 @@ const IMPORTED_IMAGE_MAX_EDGE = 2560;
 
 /** 默认值：与 skin.css 里写死的默认外观一致。 */
 export const DEFAULT_SETTINGS = {
-  // 默认完全透明：壁纸从左侧栏到对话区是一整张图，不额外糊一层颜色。
-  // 想要玻璃质感就在面板里把"侧栏玻璃实度"往上推。
-  sidebarGlass: 0,
-  panelGlass: 0.88,
-  inputGlass: 0.97,
+  // 侧栏比会话内容层更透明一点：它不该比正文抢眼，但完全透明时长时间
+  // 阅读会累，所以默认留一层 68% 的灰绿玻璃。推到 0 就是完全透明。
+  sidebarGlass: 0.68,
+  panelGlass: 0.82,
+  inputGlass: 0.88,
   blur: 20,
   scrim: 100,
   text: "custom",
   customInk: "#26383a",
   customInkDark: "#e8edec",
-  textScrim: 0,
+  textScrim: 76,
   textShadow: true,
   accent: "sea",
   appearance: "auto",

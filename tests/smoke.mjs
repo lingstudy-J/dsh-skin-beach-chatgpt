@@ -85,11 +85,12 @@ check('浮层容器已挂载', body.querySelectorAll('.dsh-beach-host').length, 
 check('首次运行自动展开面板', shadowRoot().querySelector('.dsh-beach-panel').hidden, false)
 
 // ── 默认设置落到 body ─────────────────────────────────────────
-check('侧栏玻璃默认值（完全透明）', body.style.getPropertyValue('--beach-glass-alpha'), '0')
-check('面板实度默认值', body.style.getPropertyValue('--beach-panel-alpha'), '0.88')
-check('输入框实度默认值（接近不透明）', body.style.getPropertyValue('--beach-input-alpha'), '0.97')
+check('侧栏玻璃默认值（轻玻璃）', body.style.getPropertyValue('--beach-glass-alpha'), '0.68')
+check('面板实度默认值', body.style.getPropertyValue('--beach-panel-alpha'), '0.82')
+check('输入框实度默认值', body.style.getPropertyValue('--beach-input-alpha'), '0.88')
 check('模糊默认值', body.style.getPropertyValue('--beach-blur'), '20px')
 check('遮罩默认值', body.style.getPropertyValue('--beach-scrim-strength'), '1')
+check('正文底衬默认开启', body.style.getPropertyValue('--beach-text-scrim'), '0.76')
 check('默认文字档位', body.getAttribute('data-beach-text'), 'custom')
 check('默认强调色', body.getAttribute('data-beach-accent'), 'sea')
 check('默认壁纸开关', body.getAttribute('data-beach-wallpaper'), 'on')
