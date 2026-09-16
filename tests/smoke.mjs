@@ -108,12 +108,16 @@ check('侧栏按钮 token 就地换成青灰玻璃', styleText.includes('--dsw-a
 
 // ── 侧栏清晰度：只在列表区就地重绑，绝不铺到整个侧栏或全局 ──────
 check('会话名色值', styleText.includes('--beach-sidebar-ink: #24383a'), true)
-check('时间等次要信息色值', styleText.includes('--beach-sidebar-muted: #647779'), true)
+check('时间等次要信息色值', styleText.includes('--beach-sidebar-muted: #596d6f'), true)
 check('分组标题色值', styleText.includes('--beach-sidebar-group: #596d6e'), true)
 check('图标色值', styleText.includes('--beach-sidebar-icon: #4f6667'), true)
 check('选中文字色值', styleText.includes('--beach-sidebar-active-ink: #1f3435'), true)
 check('label 重绑限定在 listArea', /\[class\*="listArea"\][^{]*\{[^}]*--dsw-alias-label-primary/s.test(styleText), true)
 check('label 重绑没有铺到整个侧栏', /:is\(\[class\*="sidebarCol"\][^{]*\)\s*\{[^}]*--dsw-alias-label-primary/.test(styleText), false)
+// 底部渐隐遮罩必须绑到侧栏自己的玻璃色，而不是官方不透明的近白
+check('底部 fade 绑到侧栏自身玻璃色', styleText.includes('--dsw-specific-sidebar-fill: rgb(var(--beach-sidebar-rgb)'), true)
+// 分组规则不得再命中项目名的文字容器（否则项目名会整体淡一档）
+check('分组规则不再命中 projectText', styleText.includes('[class*="projectText"]'), false)
 check('局部承托只作用在 listArea', /\[class\*="listArea"\][^{]*\{[^}]*linear-gradient/s.test(styleText), true)
 check('侧栏字重用的是 treeitem 角色', styleText.includes('[role="treeitem"] {'), true)
 check('整页遮罩已减薄', styleText.includes('0.16 * var(--beach-scrim-strength)'), true)

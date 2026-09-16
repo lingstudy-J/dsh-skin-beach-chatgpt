@@ -41,7 +41,7 @@ body[data-dsh-beach-chatgpt] {
   --beach-veil: rgba(26, 52, 54, 0.06);      /* 壁纸之上的一层极轻灰青薄雾 */
   --beach-sidebar-rgb: 239 243 240;          /* 侧栏是漂浮在壁纸上的玻璃菜单 */
   --beach-sidebar-ink: #24383a;        /* 会话名 / 项目名 */
-  --beach-sidebar-muted: #647779;      /* 时间、状态等次要信息 */
+  --beach-sidebar-muted: #596d6f;      /* 时间、状态等次要信息 */
   --beach-sidebar-group: #596d6e;      /* 分组标题 */
   --beach-sidebar-icon: #4f6667;       /* 文件夹与功能图标 */
   --beach-sidebar-hover: rgba(226, 238, 233, 0.46);
@@ -315,6 +315,11 @@ body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) {
      --dsw-alias-border-l3，在这里就地换成同一支青灰玻璃：只影响侧栏内的
      按钮，弹框与其它浮层的同名 token 不受影响。 */
   --dsw-alias-button-elevated-fill: var(--beach-input-surface);
+  /* WorkspaceBrowser 的 .fade 是一条 24px 高的底部渐隐遮罩，它渐到
+     --dsw-specific-sidebar-fill —— 官方值是不透明的近白（neutral-bluish-50），
+     叠在 57% 的玻璃侧栏上就是一条偏白的实带，压在列表最后一行上让它发糊。
+     绑成侧栏自己的合成色，渐隐才真的"隐"进玻璃里。 */
+  --dsw-specific-sidebar-fill: rgb(var(--beach-sidebar-rgb) / var(--beach-glass-alpha));
   --dsw-alias-button-floating-hover: rgba(226, 238, 233, 0.62);
   --dsw-alias-border-l3: rgba(82, 124, 117, 0.14);
   border-right: 0;
@@ -350,10 +355,11 @@ body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) [
   font-weight: 500;
 }
 
-body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) :is(
-  [class*="groupSection"],
-  [class*="projectText"]
-) {
+/* 只给分组区标题（"未分组""工作区"这类）。曾经把 .projectText 也列进来，
+   但它是项目行的**文字容器**、不是文字本身：给它设色会让项目名继承到
+   --beach-sidebar-group，于是"ranking-node-manage-server"这种项目名整体
+   淡一档、比同级会话名浅。容器不设色，颜色交回 label-primary。 */
+body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) [class*="groupSection"] {
   color: var(--beach-sidebar-group);
   font-weight: 500;
 }
