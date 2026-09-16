@@ -382,8 +382,10 @@ body[data-dsh-beach-chatgpt] :is([class*="markdown"], [data-chat-flow]) :not(pre
    关键是不透明度（默认 76%，面板里 0–80% 可调），不是模糊 —— 大面积
    backdrop-filter 会在滚动时持续重算，代价远大于它带来的那点质感。 */
 body[data-dsh-beach-chatgpt] [data-chat-flow] {
+  /* 刻意不给描边：正文区那一圈线在照片上很显眼，也把"整页一张图"切断。
+     只留底色 + 圆角 + 极淡投影，边界交给明度差去表达。 */
   background-color: rgb(var(--beach-glass-rgb) / var(--beach-text-scrim, 0.76));
-  border: 1px solid var(--beach-line);
+  border: 0;
   border-radius: 14px;
   box-shadow: 0 4px 20px rgba(38, 56, 58, 0.06);
 }
