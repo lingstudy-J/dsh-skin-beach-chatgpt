@@ -119,8 +119,10 @@ check('底部 fade 绑到侧栏自身玻璃色', styleText.includes('--dsw-speci
 // 分组规则不得再命中项目名的文字容器（否则项目名会整体淡一档）
 check('分组规则不再命中 projectText', styleText.includes('[class*="projectText"]'), false)
 check('局部承托只作用在 listArea', /\[class\*="listArea"\][^{]*\{[^}]*linear-gradient/s.test(styleText), true)
-check('列表承托提到 0.30 → 0.20', /\[class\*="listArea"\][^{]*\{[^}]*rgba\(242, 246, 243, 0\.30\)/s.test(styleText), true)
-check('listArea 有轻量背景模糊（4px）', /\[class\*="listArea"\][^{]*\{[^}]*backdrop-filter: blur\(4px\) saturate\(0\.92\)/s.test(styleText), true)
+check('列表承托取平衡点 0.22 → 0.14', /\[class\*="listArea"\][^{]*\{[^}]*rgba\(242, 246, 243, 0\.22\)/s.test(styleText), true)
+check('listArea 背景模糊收到 1.5px', /\[class\*="listArea"\][^{]*\{[^}]*backdrop-filter: blur\(1\.5px\) saturate\(0\.96\)/s.test(styleText), true)
+// listArea 只是隐形的阅读辅助层，不得长成新的 UI 组件
+check('listArea 不加边框/圆角/投影', /\[class\*="listArea"\][^{]*\{[^}]*(border|border-radius|box-shadow):/s.test(styleText), false)
 check('背景模糊不落在行/文字节点上', /\[role="treeitem"\][^{]*\{[^}]*backdrop-filter/.test(styleText), false)
 check('背景模糊也没有铺到整个侧栏', /:is\(\[class\*="sidebarCol"\][^{]*\)\s*\{[^}]*backdrop-filter/.test(styleText), false)
 check('侧栏字重用的是 treeitem 角色', styleText.includes('[role="treeitem"] {'), true)
