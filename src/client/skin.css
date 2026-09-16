@@ -427,6 +427,75 @@ body[data-dsh-beach-chatgpt] [data-composer-card] [data-composer-input] {
    所以皮肤在这里只做一件事：什么都不改。踩过的两次坑都记在
    docs/notes.md 里。 */
 
+/* ═══════════════════════════════════════════════════════════
+   代码 / Bash 的"外壳"：只碰 wrapper 与 header
+   ───────────────────────────────────────────────────────────
+   选择器全部取自 DSH 自己的明文标记，不去猜哈希类名：
+     · .md-code-block   —— CodeBlock.tsx: clsx(css.block, 'md-code-block')
+     · [data-terminal]  —— TerminalBlock.tsx: data-terminal=""
+   内部一律不动：shiki 的 --shiki-* 配色、pre 的前景/背景、终端 ANSI 全都
+   保持官方。外框用 box-shadow 的 0 0 0 1px 画，而不是 border —— border 会
+   改变盒模型，把内容挤动 1px。
+   ═══════════════════════════════════════════════════════════ */
+
+body[data-dsh-beach-chatgpt] .md-code-block {
+  /* 组件自己声明的可重绑变量：换的是壳，不是内容区 */
+  --dsl-code-block-border-radius: 10px;
+  --dsl-code-block-banner-background-color: rgba(242, 246, 243, 0.96);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(82, 124, 117, 0.16),
+    0 2px 8px rgba(38, 56, 58, 0.04),
+    0 8px 24px rgba(38, 56, 58, 0.035);
+}
+
+body[data-dsh-beach-chatgpt] .md-code-block [class*="banner"] {
+  color: #52686a;
+  border-bottom: 1px solid rgba(82, 124, 117, 0.12);
+}
+
+body[data-dsh-beach-chatgpt] [data-terminal] {
+  --dsl-terminal-radius: 10px;
+  box-shadow:
+    0 0 0 1px rgba(82, 124, 117, 0.16),
+    0 2px 8px rgba(38, 56, 58, 0.04),
+    0 8px 24px rgba(38, 56, 58, 0.035);
+}
+
+/* 终端的 banner 与卡片同面（TerminalBlock 没给 header 单独的 token），
+   所以这里显式把它提出来做成一栏浅灰绿顶栏。 */
+body[data-dsh-beach-chatgpt] [data-terminal] > [class*="header"] {
+  color: #52686a;
+  background-color: rgba(242, 246, 243, 0.96);
+  border-bottom: 1px solid rgba(82, 124, 117, 0.12);
+}
+
+/* header 的 color 只对没自己设色的元素生效，状态/路径/命令单独点名 */
+body[data-dsh-beach-chatgpt] [data-terminal] :is(
+  [class*="runStateLabel"],
+  [class*="cwd"],
+  [class*="command"]
+) {
+  color: #52686a;
+}
+
+body[data-dsh-beach-chatgpt] :is(.md-code-block, [data-terminal]) [class*="copyButton"] {
+  color: #52686a;
+}
+
+body[data-dsh-beach-chatgpt] :is(.md-code-block, [data-terminal]) [class*="copyButton"]:hover {
+  color: #2e716c;
+  background-color: rgba(220, 234, 230, 0.65);
+}
+
+/* IN/OUT 兜底卡（命令被中止等情况下没有终端卡）：同样只加壳。 */
+body[data-dsh-beach-chatgpt] [data-variant] [class*="ioCard"] {
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 1px rgba(82, 124, 117, 0.16),
+    0 2px 8px rgba(38, 56, 58, 0.04);
+}
+
 /* ── 滚动条跟随皮肤配色（ui-theme 的滚动条样式读同批 token） ── */
 body[data-dsh-beach-chatgpt] * {
   scrollbar-color: var(--beach-scroll-thumb) transparent;

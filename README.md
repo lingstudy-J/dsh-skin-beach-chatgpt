@@ -241,6 +241,35 @@ chmod +x uninstall.sh && ./uninstall.sh
 
 ## 自定义（改源码）
 
+### 代码 / Bash 的外观：只改外壳
+
+代码块与 Bash 终端**内部配色保持官方**（shiki 高亮、终端 ANSI 都不动），皮肤只在外壳上做文章，让它们与青灰主题接上：
+
+| 部位 | 处理 | 选择器来源 |
+| --- | --- | --- |
+| Markdown 代码块 | 圆角 10px、外框 `rgba(82,124,117,.16)`、两层轻投影 | `.md-code-block`（`CodeBlock.tsx` 里的明文类名） |
+| 代码块顶栏 | 底色 `rgba(242,246,243,.96)`、文字 `#52686A`、下边框 | 组件变量 `--dsl-code-block-banner-background-color` |
+| Bash 终端卡 | 圆角 10px、同样的外框与投影 | `[data-terminal]`（`TerminalBlock.tsx`） |
+| 终端顶栏 | 同代码块顶栏（终端 header 本与卡片同面，这里显式提成一栏） | `[data-terminal] > [class*="header"]` |
+| 复制按钮 | hover：文字 `#2E716C`、底 `rgba(220,234,230,.65)` | `[class*="copyButton"]:hover` |
+
+外框用 `box-shadow: 0 0 0 1px` 画而不是 `border` —— 后者会改变盒模型、把内容挤动 1px。整块**不使用** `filter` / `backdrop-filter` / `opacity`，也不加覆盖在文字上的伪元素。
+
+### 想整体换掉代码高亮？
+
+DSH 的 shiki 用的是 **CSS 变量主题**，配色全部落在 12 个 `--shiki-*` 变量上（`packages/client/ui-theme/src/styles/shiki.css`，亮色在 `:root`、暗色在暗色属性下）：
+
+```
+--shiki-foreground   --shiki-background
+--shiki-token-constant   --shiki-token-string   --shiki-token-comment
+--shiki-token-keyword    --shiki-token-parameter   --shiki-token-function
+--shiki-token-string-expression   --shiki-token-punctuation   --shiki-token-link
+```
+
+覆盖这一整组就是"整套主题一起换"，而不是 `background: dark; color: white` 那种硬覆盖（后者只会让亮色主题下的高亮色失去对比）。**本轮没有动它们**，需要的话可以再给一套与青灰主题配套的提案。
+
+终端（ANSI）**没有**等价的独立 palette：`ui-primitives/src/ansi.ts` 把基本 8/16 色映射到 `--dsw-alias-state-*` 与 label 色，256 色与 truecolor 用字面 rgb —— 它的配色是**复用全局状态语义**的，皮肤层不该动。
+
 ### 配色方案（青灰系）
 
 色相取自壁纸里那条灰绿色丝带 —— 正文用深灰青而非纯黑，强调用低饱和青绿而非高饱和蓝，在照片背景上都不会"跳"出来。全部集中在 `src/client/skin.css` 顶部的变量里，亮暗各一段：

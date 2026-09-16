@@ -77,7 +77,18 @@ for (const token of [
 // 代码块 / 终端 / 工具卡的颜色一律交还官方：它们的底色与文字色（含 shiki 高亮）
 // 必须由同一个来源成对给出，皮肤插手任何一边都会拆散这对配色。
 check('不覆盖代码块 token', /^\s*--dsw-alias-markdown-code-block:/m.test(styleText), false)
-check('不覆盖终端颜色', /\[data-terminal\][^{]*\{[^}]*background-color/.test(styleText), false)
+// 终端"外壳"允许动（顶栏底色），但终端块自身的底不允许被覆盖。
+check('不覆盖终端块自身底色', /\[data-terminal\]\s*\{[^}]*background-color/.test(styleText), false)
+
+// ── 代码 / Bash 的边界：只改外壳，内部配色一律不碰 ─────────────
+check('外壳用明文类名 .md-code-block', styleText.includes('.md-code-block'), true)
+check('外壳用 data-terminal', styleText.includes('[data-terminal]'), true)
+check('代码块只重绑组件圆角变量', styleText.includes('--dsl-code-block-border-radius: 10px'), true)
+check('代码块 banner 底色走组件变量', styleText.includes('--dsl-code-block-banner-background-color: rgba(242, 246, 243, 0.96)'), true)
+check('终端只重绑组件圆角变量', styleText.includes('--dsl-terminal-radius: 10px'), true)
+check('不覆盖 shiki 配色', /^\s*--shiki-/m.test(styleText), false)
+check('样式表不含生效的 backdrop-filter', /^\s*backdrop-filter:/m.test(styleText), false)
+check('样式表不含 filter: blur', /^\s*filter:\s*blur/m.test(styleText), false)
 check('侧栏规则不使用 backdrop-filter', /sidebarCol[^{]*\{[^}]*backdrop-filter/.test(styleText), false)
 check('输入卡片不使用 backdrop-filter', /\[data-composer-card\]\s*\{[^}]*backdrop-filter/.test(styleText), false)
 check('侧栏透明规则放过弹框', /sidebarCol[\s\S]*?:not\(\[role="dialog"\]\)/.test(styleText), true)

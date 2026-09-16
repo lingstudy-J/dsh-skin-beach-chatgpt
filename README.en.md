@@ -240,6 +240,35 @@ Three sources, all instant — **no rebuild, no restart**:
 
 ## Customizing the source
 
+### Code / Bash: shell only
+
+Code blocks and the Bash terminal keep their **official inner colours** (shiki highlighting, terminal ANSI untouched); the skin only dresses the shell so they sit inside the cool grey-green theme:
+
+| Part | Treatment | Selector source |
+| --- | --- | --- |
+| Markdown code block | 10px radius, `rgba(82,124,117,.16)` outline, two soft shadows | `.md-code-block` (the plain class name in `CodeBlock.tsx`) |
+| Code block banner | `rgba(242,246,243,.96)` background, `#52686A` text, bottom hairline | component variable `--dsl-code-block-banner-background-color` |
+| Bash terminal card | 10px radius, same outline and shadows | `[data-terminal]` (`TerminalBlock.tsx`) |
+| Terminal banner | same as the code banner (the terminal header shares the card surface, so it is lifted into its own strip here) | `[data-terminal] > [class*="header"]` |
+| Copy button | hover: `#2E716C` text on `rgba(220,234,230,.65)` | `[class*="copyButton"]:hover` |
+
+The outline is drawn with `box-shadow: 0 0 0 1px` rather than `border` — a border would change the box model and nudge the content by 1px. Nothing here uses `filter` / `backdrop-filter` / `opacity`, and no pseudo-element is laid over the text.
+
+### Want to swap the whole code theme?
+
+DSH's shiki runs a **CSS-variables theme**: every colour lands on 12 `--shiki-*` variables (`packages/client/ui-theme/src/styles/shiki.css`, light on `:root`, dark on the dark attribute):
+
+```
+--shiki-foreground   --shiki-background
+--shiki-token-constant   --shiki-token-string   --shiki-token-comment
+--shiki-token-keyword    --shiki-token-parameter   --shiki-token-function
+--shiki-token-string-expression   --shiki-token-punctuation   --shiki-token-link
+```
+
+Overriding that whole set is a real theme swap — unlike `background: dark; color: white`, which only robs the light-theme highlight colours of their contrast. **This round does not touch them**; a cool grey-green proposal can follow if you want it.
+
+The terminal (ANSI) has **no** equivalent palette hook: `ui-primitives/src/ansi.ts` maps the basic 8/16 colours onto `--dsw-alias-state-*` and label colours, and 256-colour / truecolor values are literal rgb — its palette reuses global state semantics, so the skin layer should leave it alone.
+
 ### Palette (cool grey-green)
 
 The hues come from the grey-green ribbon in the wallpaper — body text is a deep grey-teal rather than pure black, and accents are low-saturation teal-green rather than vivid blue, so nothing "pops" off a photographic background. Everything lives in the variables at the top of `src/client/skin.css`, one block per theme:
