@@ -20,18 +20,25 @@
 body[data-dsh-beach-chatgpt] {
   --beach-art: url("__BEACH_WALLPAPER__");
 
-  /* ── 亮色（默认）：晨光海面 ─────────────────────────────── */
-  --beach-ink: #14303f;
-  --beach-ink-soft: #40606f;
-  --beach-ink-faint: #5d7d8c;
-  --beach-sea: #2f86ad;
-  --beach-sea-deep: #1d6182;
-  --beach-sun: #e08a4e;
+  /* ── 亮色（默认）：晨光海面 · 青灰配色 ─────────────────────
+     色相取自壁纸里那条灰绿色丝带：正文深灰青、强调低饱和青绿，
+     避免纯黑与高饱和蓝在照片背景上"跳"出来。 */
+  --beach-ink: #26383a;         /* 正文主文字 */
+  --beach-ink-strong: #17292c;  /* 标题 / 强调文字 */
+  --beach-ink-soft: #52686a;    /* 次级：时间、描述、辅助信息 */
+  --beach-ink-faint: #78898a;   /* 弱化：placeholder、状态说明 */
+  --beach-link: #2e716c;        /* 链接 */
+  --beach-link-hover: #225b58;  /* 链接 hover（加深，不用高饱和蓝） */
+  --beach-code-ink: #f3f0e8;    /* 代码文字：暖白 */
+  --beach-accent-soft: #dceae6; /* 浅强调背景：hover、标签、选中 */
+  --beach-sea: #527c75;         /* 主题强调：按钮、选中态、图标 */
+  --beach-sea-deep: #225b58;
+  --beach-sun: #7fa89f;
 
   /* 玻璃基色与可调旋钮（设置面板写的就是这几个）。
      侧栏默认只有 18% 的轻遮盖，壁纸因此从左到右是一张图；想让侧栏更"实"
      就在面板里推高"侧栏玻璃实度"，代价是壁纸更淡。 */
-  --beach-glass-rgb: 255 253 248;
+  --beach-glass-rgb: 250 249 246;
   --beach-glass-alpha: 0.18;
   --beach-panel-alpha: 0.88;
   --beach-blur: 20px;
@@ -48,15 +55,15 @@ body[data-dsh-beach-chatgpt] {
   --beach-glass-strong: rgb(var(--beach-glass-rgb) / var(--beach-panel-alpha));
   --beach-input-surface: rgb(var(--beach-glass-rgb) / var(--beach-input-alpha));
 
-  --beach-line: rgba(47, 134, 173, 0.26);
-  --beach-shadow: 0 18px 44px rgba(14, 45, 64, 0.16), 0 2px 8px rgba(14, 45, 64, 0.1);
+  --beach-line: rgba(55, 86, 87, 0.20);
+  --beach-shadow: 0 18px 44px rgba(23, 41, 44, 0.14), 0 2px 8px rgba(23, 41, 44, 0.09);
   --beach-scrim: linear-gradient(
     180deg,
-    rgb(255 250 243 / calc(0.34 * var(--beach-scrim-strength))) 0%,
-    rgb(226 240 248 / calc(0.54 * var(--beach-scrim-strength))) 100%
+    rgb(250 249 246 / calc(0.34 * var(--beach-scrim-strength))) 0%,
+    rgb(232 240 238 / calc(0.54 * var(--beach-scrim-strength))) 100%
   );
-  --beach-scroll-thumb: rgba(47, 134, 173, 0.36);
-  --beach-scroll-thumb-hover: rgba(29, 97, 130, 0.56);
+  --beach-scroll-thumb: rgba(82, 124, 117, 0.36);
+  --beach-scroll-thumb-hover: rgba(34, 91, 88, 0.56);
   /* 深字配白晕、浅字配黑影：阴影只为把字从杂乱背景里拎出来。 */
   --beach-text-shadow-color: rgba(255, 255, 255, 0.65);
 
@@ -70,8 +77,11 @@ body[data-dsh-beach-chatgpt] {
   --dsw-alias-label-tertiary: var(--beach-ink-faint);
   --dsw-alias-label-caption: var(--beach-ink-faint);
   --dsw-alias-label-dimmed: var(--beach-ink-faint);
-  --dsw-alias-border-l1: rgba(47, 134, 173, 0.20);
-  --dsw-alias-border-l2: rgba(47, 134, 173, 0.32);
+  --dsw-alias-border-l1: rgba(55, 86, 87, 0.20);
+  --dsw-alias-border-l2: rgba(55, 86, 87, 0.32);
+  /* 代码块：深青底 + 暖白字，与照片背景形成反差 */
+  --dsw-alias-markdown-code-block: rgba(28, 40, 42, 0.92);
+  --dsw-alias-markdown-placeholder: var(--beach-ink-faint);
   --dsw-alias-brand-primary: var(--beach-sea);
   --dsw-alias-scrollbar-bg-l1: var(--beach-scroll-thumb);
   --dsw-alias-scrollbar-hover-l1: var(--beach-scroll-thumb-hover);
@@ -85,51 +95,58 @@ body[data-dsh-beach-chatgpt] {
   background-attachment: fixed, fixed;
 }
 
-/* ── 暗色：暮色海面 ───────────────────────────────────────── */
 /* ── 暗色：暮色海面 ─────────────────────────────────────────
    关键约束：暗色分支的文字色是近白的，而这张壁纸是**白天的海面**。
    遮罩太轻、玻璃太透，浅色文字就会直接消失在明亮背景里 —— 界面看上去
    像"整个都没了"。所以暗色下遮罩要比亮色更重（把海压成暮色），
    侧栏/顶栏的深色玻璃也要够厚（0.34 起），两侧一起给文字让出对比度。 */
 body[data-dsh-beach-chatgpt][data-ds-dark-theme] {
-  --beach-ink: #eaf3f8;
-  --beach-ink-soft: #b9cedb;
-  --beach-ink-faint: #93aec0;
-  --beach-sea: #79c7e6;
-  --beach-sea-deep: #a8dcf2;
-  --beach-sun: #f0b27a;
+  --beach-ink: #e8edec;
+  --beach-ink-strong: #ffffff;
+  --beach-ink-soft: #b6c4c3;
+  --beach-ink-faint: #8fa0a0;
+  --beach-link: #a8d5ce;
+  --beach-link-hover: #c6e6e1;
+  --beach-code-ink: #f3f0e8;
+  --beach-accent-soft: rgba(82, 124, 117, 0.34);
+  --beach-sea: #8fbdb4;
+  --beach-sea-deep: #b6dcd4;
+  --beach-sun: #9ec9bf;
 
-  --beach-glass-rgb: 10 25 37;
+  --beach-glass-rgb: 20 32 34;
   --beach-glass-alpha: 0.34;
   --beach-panel-alpha: 0.80;
   --beach-input-alpha: 0.94;
 
-  --beach-line: rgba(148, 200, 224, 0.24);
+  --beach-line: rgba(148, 190, 186, 0.24);
   --beach-shadow: 0 20px 48px rgba(0, 0, 0, 0.42), 0 2px 10px rgba(0, 0, 0, 0.3);
   --beach-scrim: linear-gradient(
     180deg,
-    rgb(4 13 21 / calc(0.52 * var(--beach-scrim-strength))) 0%,
-    rgb(6 20 32 / calc(0.70 * var(--beach-scrim-strength))) 100%
+    rgb(10 18 19 / calc(0.52 * var(--beach-scrim-strength))) 0%,
+    rgb(14 24 26 / calc(0.70 * var(--beach-scrim-strength))) 100%
   );
-  --beach-scroll-thumb: rgba(148, 200, 224, 0.32);
-  --beach-scroll-thumb-hover: rgba(180, 220, 240, 0.5);
+  --beach-scroll-thumb: rgba(143, 189, 180, 0.32);
+  --beach-scroll-thumb-hover: rgba(182, 220, 212, 0.5);
   --beach-text-shadow-color: rgba(0, 0, 0, 0.55);
 
-  --dsw-alias-border-l1: rgba(148, 200, 224, 0.18);
-  --dsw-alias-border-l2: rgba(148, 200, 224, 0.30);
+  --dsw-alias-border-l1: rgba(148, 190, 186, 0.18);
+  --dsw-alias-border-l2: rgba(148, 190, 186, 0.30);
+  --dsw-alias-markdown-code-block: rgba(12, 20, 21, 0.92);
 }
 
 /* ── 文字颜色预设（面板可切：冷墨 / 暖褐 / 高对比） ───────── */
 body[data-dsh-beach-chatgpt][data-beach-text="cool"] {
-  --beach-ink: #14303f;
-  --beach-ink-soft: #40606f;
-  --beach-ink-faint: #5d7d8c;
+  --beach-ink: #26383a;
+  --beach-ink-strong: #17292c;
+  --beach-ink-soft: #52686a;
+  --beach-ink-faint: #78898a;
 }
 
 body[data-dsh-beach-chatgpt][data-ds-dark-theme][data-beach-text="cool"] {
-  --beach-ink: #eaf3f8;
-  --beach-ink-soft: #b9cedb;
-  --beach-ink-faint: #93aec0;
+  --beach-ink: #e8edec;
+  --beach-ink-strong: #ffffff;
+  --beach-ink-soft: #b6c4c3;
+  --beach-ink-faint: #8fa0a0;
 }
 
 body[data-dsh-beach-chatgpt][data-beach-text="warm"] {
@@ -158,15 +175,15 @@ body[data-dsh-beach-chatgpt][data-ds-dark-theme][data-beach-text="contrast"] {
 
 /* ── 强调色预设（面板可切：海蓝 / 落日 / 薄荷 / 樱粉） ─────── */
 body[data-dsh-beach-chatgpt][data-beach-accent="sea"] {
-  --beach-sea: #2f86ad;
-  --beach-sea-deep: #1d6182;
-  --beach-sun: #e08a4e;
+  --beach-sea: #527c75;
+  --beach-sea-deep: #225b58;
+  --beach-sun: #7fa89f;
 }
 
 body[data-dsh-beach-chatgpt][data-ds-dark-theme][data-beach-accent="sea"] {
-  --beach-sea: #79c7e6;
-  --beach-sea-deep: #a8dcf2;
-  --beach-sun: #f0b27a;
+  --beach-sea: #8fbdb4;
+  --beach-sea-deep: #b6dcd4;
+  --beach-sun: #9ec9bf;
 }
 
 body[data-dsh-beach-chatgpt][data-beach-accent="sunset"] {
@@ -258,7 +275,7 @@ body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) :
   [aria-current="true"],
   [data-state="active"]
 ) {
-  background-color: var(--beach-item-active, rgba(127, 127, 127, 0.14));
+  background-color: var(--beach-accent-soft);
 }
 
 /* ── 顶栏与标题栏：与侧栏同一条玻璃，避免横向出现第三种底色 ── */
@@ -277,6 +294,26 @@ body[data-dsh-beach-chatgpt] :is(
   [class*="userRow"] [class*="bubble"]
 ) {
   color: var(--beach-ink);
+}
+
+/* 标题比正文再深一级，层级一眼分得开。 */
+body[data-dsh-beach-chatgpt] :is([class*="markdown"], [data-chat-flow])
+  :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--beach-ink-strong);
+}
+
+/* 链接用从壁纸丝带提取的青绿；hover 加深，不引入高饱和蓝。 */
+body[data-dsh-beach-chatgpt] :is([class*="markdown"], [data-chat-flow]) a {
+  color: var(--beach-link);
+}
+
+body[data-dsh-beach-chatgpt] :is([class*="markdown"], [data-chat-flow]) a:hover {
+  color: var(--beach-link-hover);
+}
+
+/* 代码：深青底配暖白字。语法高亮的内联色仍优先，这里只兜底。 */
+body[data-dsh-beach-chatgpt] :is([class*="markdown"], [data-chat-flow]) :is(pre, code) {
+  color: var(--beach-code-ink);
 }
 
 /* 底衬默认 0（完全透明，保持"背景一体"）；字看不清时在面板里往上推。 */

@@ -240,6 +240,26 @@ Three sources, all instant — **no rebuild, no restart**:
 
 ## Customizing the source
 
+### Palette (cool grey-green)
+
+The hues come from the grey-green ribbon in the wallpaper — body text is a deep grey-teal rather than pure black, and accents are low-saturation teal-green rather than vivid blue, so nothing "pops" off a photographic background. Everything lives in the variables at the top of `src/client/skin.css`, one block per theme:
+
+| Purpose | Variable | Light | Dark |
+| --- | --- | --- | --- |
+| Body text | `--beach-ink` | `#26383A` | `#E8EDEC` |
+| Headings / emphasis | `--beach-ink-strong` | `#17292C` | `#FFFFFF` |
+| Secondary (time, description) | `--beach-ink-soft` | `#52686A` | `#B6C4C3` |
+| Faint (placeholder, status) | `--beach-ink-faint` | `#78898A` | `#8FA0A0` |
+| Link / link hover | `--beach-link` / `--beach-link-hover` | `#2E716C` / `#225B58` | `#A8D5CE` / `#C6E6E1` |
+| Accent (buttons, selection, icons) | `--beach-sea` | `#527C75` | `#8FBDB4` |
+| Soft accent (hover, tags, selection bg) | `--beach-accent-soft` | `#DCEAE6` | `rgba(82, 124, 117, 0.34)` |
+| Border | `--beach-line` | `rgba(55, 86, 87, 0.20)` | `rgba(148, 190, 186, 0.24)` |
+| Panel glass base | `--beach-glass-rgb` | `250 249 246` | `20 32 34` |
+| Code text | `--beach-code-ink` | `#F3F0E8` | `#F3F0E8` |
+| Code block background | `--dsw-alias-markdown-code-block` | `rgba(28, 40, 42, 0.92)` | `rgba(12, 20, 21, 0.92)` |
+
+Headings, links and code use dedicated rules (`--beach-ink-strong` / `--beach-link` / `--beach-code-ink`) instead of relying on an indirect token mapping.
+
 **Replace the bundled wallpaper**: swap `assets/wallpaper-2560.webp` (2560×1440, WebP q≈80, keep it under ~500 KiB) and rebuild:
 
 ```sh

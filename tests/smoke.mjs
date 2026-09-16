@@ -71,10 +71,11 @@ for (const token of [
   '--dsw-alias-bg-layer-3',
   '--dsw-alias-bg-overlay',
   '--dsw-alias-button-elevated-fill',
-  '--dsw-alias-markdown-code-block',
 ]) {
   check(`不覆盖浮层 token ${token}`, styleText.includes(token), false)
 }
+// 代码块是唯一被刻意覆盖的 markdown token：深青底 + 暖白字是配色方案的一部分。
+check('代码块使用深青底', styleText.includes('--dsw-alias-markdown-code-block: rgba(28, 40, 42, 0.92)'), true)
 check('侧栏规则不使用 backdrop-filter', /sidebarCol[^{]*\{[^}]*backdrop-filter/.test(styleText), false)
 check('输入卡片不使用 backdrop-filter', /\[data-composer-card\]\s*\{[^}]*backdrop-filter/.test(styleText), false)
 check('侧栏透明规则放过弹框', /sidebarCol[\s\S]*?:not\(\[role="dialog"\]\)/.test(styleText), true)
@@ -119,8 +120,8 @@ check('取色器数量（浅色 / 深色各一）', colorInputs.length, 2)
 const colorInput = colorInputs[0]
 const darkColorInput = colorInputs[1]
 const hexInput = shadowRoot().querySelector('.dsh-beach-panel .dsh-beach-hex')
-check('取色器初值（浅色）', colorInput.value, '#14303f')
-check('取色器初值（深色）', darkColorInput.value, '#eaf3f8')
+check('取色器初值（浅色·青灰）', colorInput.value, '#26383a')
+check('取色器初值（深色）', darkColorInput.value, '#e8edec')
 
 colorInput.value = '#102a44'
 colorInput.dispatchEvent(new window.Event('input', { bubbles: true }))
@@ -189,8 +190,8 @@ check('壁纸来源已持久化', stored?.wallpaperSource?.kind, 'url')
 
 clickByText('恢复默认')
 check('恢复默认：文字档位', body.getAttribute('data-beach-text'), 'custom')
-check('恢复默认：浅色自定义色复位', inkTag().textContent.includes('#14303f'), true)
-check('恢复默认：深色自定义色复位', inkTag().textContent.includes('#eaf3f8'), true)
+check('恢复默认：浅色自定义色复位', inkTag().textContent.includes('#26383a'), true)
+check('恢复默认：深色自定义色复位', inkTag().textContent.includes('#e8edec'), true)
 check('恢复默认：文字阴影', body.getAttribute('data-beach-text-shadow'), 'on')
 check('恢复默认：壁纸来源', body.style.getPropertyValue('--beach-art'), '')
 

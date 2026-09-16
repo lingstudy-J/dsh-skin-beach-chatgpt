@@ -241,6 +241,26 @@ chmod +x uninstall.sh && ./uninstall.sh
 
 ## 自定义（改源码）
 
+### 配色方案（青灰系）
+
+色相取自壁纸里那条灰绿色丝带 —— 正文用深灰青而非纯黑，强调用低饱和青绿而非高饱和蓝，在照片背景上都不会"跳"出来。全部集中在 `src/client/skin.css` 顶部的变量里，亮暗各一段：
+
+| 用途 | 变量 | 亮色 | 暗色 |
+| --- | --- | --- | --- |
+| 正文主文字 | `--beach-ink` | `#26383A` | `#E8EDEC` |
+| 标题 / 强调文字 | `--beach-ink-strong` | `#17292C` | `#FFFFFF` |
+| 次级文字（时间、描述） | `--beach-ink-soft` | `#52686A` | `#B6C4C3` |
+| 弱化文字（placeholder、状态） | `--beach-ink-faint` | `#78898A` | `#8FA0A0` |
+| 链接 / 链接 hover | `--beach-link` / `--beach-link-hover` | `#2E716C` / `#225B58` | `#A8D5CE` / `#C6E6E1` |
+| 主题强调（按钮、选中态、图标） | `--beach-sea` | `#527C75` | `#8FBDB4` |
+| 浅强调背景（hover、标签、选中） | `--beach-accent-soft` | `#DCEAE6` | `rgba(82, 124, 117, 0.34)` |
+| 边框 | `--beach-line` | `rgba(55, 86, 87, 0.20)` | `rgba(148, 190, 186, 0.24)` |
+| 面板玻璃基色 | `--beach-glass-rgb` | `250 249 246` | `20 32 34` |
+| 代码文字 | `--beach-code-ink` | `#F3F0E8` | `#F3F0E8` |
+| 代码块底 | `--dsw-alias-markdown-code-block` | `rgba(28, 40, 42, 0.92)` | `rgba(12, 20, 21, 0.92)` |
+
+标题、链接、代码用的是专门规则（`--beach-ink-strong` / `--beach-link` / `--beach-code-ink`），不再只靠语义 token 的间接映射。
+
 **换内置壁纸**：替换 `assets/wallpaper-2560.webp`（建议 2560×1440、WebP 质量 80 左右，控制在 500 KiB 内），然后重新构建：
 
 ```sh

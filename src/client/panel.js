@@ -25,8 +25,8 @@ export const DEFAULT_SETTINGS = {
   blur: 20,
   scrim: 100,
   text: "custom",
-  customInk: "#14303f",
-  customInkDark: "#eaf3f8",
+  customInk: "#26383a",
+  customInkDark: "#e8edec",
   textScrim: 0,
   textShadow: true,
   accent: "sea",
@@ -246,7 +246,7 @@ button:hover {
 `
 
 const TEXT_PRESETS = [
-  { value: "cool", label: "冷墨" },
+  { value: "cool", label: "青灰" },
   { value: "warm", label: "暖褐" },
   { value: "contrast", label: "高对比" },
 ];
