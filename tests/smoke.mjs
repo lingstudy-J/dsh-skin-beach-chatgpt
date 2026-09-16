@@ -86,6 +86,7 @@ check('首次运行自动展开面板', shadowRoot().querySelector('.dsh-beach-p
 // ── 默认设置落到 body ─────────────────────────────────────────
 check('侧栏玻璃默认值（完全透明）', body.style.getPropertyValue('--beach-glass-alpha'), '0')
 check('面板实度默认值', body.style.getPropertyValue('--beach-panel-alpha'), '0.88')
+check('输入框实度默认值（接近不透明）', body.style.getPropertyValue('--beach-input-alpha'), '0.97')
 check('模糊默认值', body.style.getPropertyValue('--beach-blur'), '20px')
 check('遮罩默认值', body.style.getPropertyValue('--beach-scrim-strength'), '1')
 check('默认文字档位', body.getAttribute('data-beach-text'), 'custom')
@@ -103,7 +104,7 @@ const clickByText = (text) => {
 }
 
 const sliders = [...shadowRoot().querySelectorAll('.dsh-beach-panel input[type="range"]')]
-check('滑杆数量（侧栏/面板/模糊/遮罩/正文底衬）', sliders.length, 5)
+check('滑杆数量（侧栏/面板/输入框/模糊/遮罩/正文底衬）', sliders.length, 6)
 sliders[0].value = '80'
 sliders[0].dispatchEvent(new window.Event('input', { bubbles: true }))
 check('拖动侧栏玻璃滑杆即时生效', body.style.getPropertyValue('--beach-glass-alpha'), '0.8')
@@ -143,9 +144,15 @@ check('浅色主题不受深色取色影响', inkTag().textContent.includes('#33
 
 // ── 正文底衬与文字阴影 ───────────────────────────────────────
 check('文字阴影默认开启', body.getAttribute('data-beach-text-shadow'), 'on')
-sliders[4].value = '40'
-sliders[4].dispatchEvent(new window.Event('input', { bubbles: true }))
+sliders[5].value = '40'
+sliders[5].dispatchEvent(new window.Event('input', { bubbles: true }))
 check('正文底衬滑杆生效', body.style.getPropertyValue('--beach-text-scrim'), '0.4')
+
+// 输入框实度：滚动时历史文字透上来 → 用户推高它
+sliders[2].value = '100'
+sliders[2].dispatchEvent(new window.Event('input', { bubbles: true }))
+check('输入框实度可调到完全不透明', body.style.getPropertyValue('--beach-input-alpha'), '1')
+check('输入卡片用独立底色变量', /\[data-composer-card\][^{]*\{[^}]*var\(--beach-input-surface\)/.test(styleText), true)
 clickByText('关')
 check('文字阴影可关闭', body.getAttribute('data-beach-text-shadow'), 'off')
 check('样式表含正文颜色基线', /\[data-chat-flow\][^{]*\{[^}]*color: var\(--beach-ink\)/.test(styleText), true)

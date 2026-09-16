@@ -206,7 +206,8 @@ The skin ships its own panel — no extra plugin required.
 | **Appearance** | follow system / always light | follow system | "always light" removes the host's dark marker so DSH renders light as well (restored on uninstall) |
 | Wallpaper | on / off | on | off keeps palette + glass only |
 | Sidebar glass | 0–100% | **0%** | fully transparent by default — the sidebar adds no colour of its own; raise it for a frosted look |
-| Panel glass | 30–100% | 88% | composer, user bubbles, toolbars |
+| Panel glass | 30–100% | 88% | user bubbles, toolbars (the composer has its own row below) |
+| **Composer glass** | 80–100% | **97%** | the composer card floats above the transcript scroller; near-opaque by default — **raise it if scrolling back makes the input text hard to read** |
 | Backdrop blur | 0–32 px | 20 px | user bubbles only — containers that host official popovers never take `backdrop-filter`; 0 disables frosting |
 | Wallpaper scrim | 0–100% | 100% | the haze over the wallpaper; **raise it when text is hard to read** |
 | Text palette | cool / warm / high-contrast | cool | preset slot, separate values per theme; touching either colour picker below switches to "custom" |
@@ -285,6 +286,9 @@ That is the normal shape of a presentation-only plugin: it needs no host service
 
 **Q: After switching to dark, some text seems to vanish.**
 The dark palette draws near-white text while this wallpaper is a **daylight beach**: with a light scrim and thin glass, light text drowns in the bright picture and the UI looks empty. The dark theme therefore uses a heavier scrim (0.52–0.70) and thicker dark glass on the sidebar and title bar (0.34). If you pull the **wallpaper scrim** very low, the effect comes back — pick **always light** in the appearance row to avoid it entirely.
+
+**Q: Scrolling back through the transcript makes the input text unreadable.**
+The composer card floats above the transcript scroller, so a translucent card lets the text behind it bleed through. It is already at 97% opacity by default (94% in dark); if that is still not enough (for example a very low panel glass, or a high-contrast wallpaper), push **composer glass** to 100%.
 
 **Q: Does it affect the model, tools or session data?**
 No. There is no host behaviour, no service registration and no RPC. Everything it does to the page lives in `src/client/skin.css`.

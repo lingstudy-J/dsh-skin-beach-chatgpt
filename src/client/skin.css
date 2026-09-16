@@ -40,8 +40,13 @@ body[data-dsh-beach-chatgpt] {
   /* 皮肤自带的面板/入口恒定可读，不跟随"面板实度"旋钮。 */
   --beach-surface-solid: rgb(var(--beach-glass-rgb) / 0.95);
 
+  /* 输入框单独一层、且默认接近不透明：它是浮在会话滚动区之上的，
+     半透明会让滚上来的历史文字从卡片里透出来，和正在输入的文字糊在一起。 */
+  --beach-input-alpha: 0.97;
+
   --beach-glass: rgb(var(--beach-glass-rgb) / var(--beach-glass-alpha));
   --beach-glass-strong: rgb(var(--beach-glass-rgb) / var(--beach-panel-alpha));
+  --beach-input-surface: rgb(var(--beach-glass-rgb) / var(--beach-input-alpha));
 
   --beach-line: rgba(47, 134, 173, 0.26);
   --beach-shadow: 0 18px 44px rgba(14, 45, 64, 0.16), 0 2px 8px rgba(14, 45, 64, 0.1);
@@ -97,6 +102,7 @@ body[data-dsh-beach-chatgpt][data-ds-dark-theme] {
   --beach-glass-rgb: 10 25 37;
   --beach-glass-alpha: 0.34;
   --beach-panel-alpha: 0.80;
+  --beach-input-alpha: 0.94;
 
   --beach-line: rgba(148, 200, 224, 0.24);
   --beach-shadow: 0 20px 48px rgba(0, 0, 0, 0.42), 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -297,9 +303,10 @@ body[data-dsh-beach-chatgpt] [class*="userRow"] [class*="bubble"] {
   box-shadow: 0 6px 20px rgba(14, 45, 64, 0.12);
 }
 
-/* 输入卡片承载模型选择等弹层，同样不加 backdrop-filter（理由见侧栏那段）。 */
+/* 输入卡片承载模型选择等弹层，同样不加 backdrop-filter（理由见侧栏那段）；
+   底色用独立且更厚的 --beach-input-surface，避免滚动时历史文字透上来。 */
 body[data-dsh-beach-chatgpt] [data-composer-card] {
-  background-color: var(--beach-glass-strong);
+  background-color: var(--beach-input-surface);
   border: 0.5px solid var(--beach-line);
   box-shadow: var(--beach-shadow);
 }

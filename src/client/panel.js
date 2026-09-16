@@ -21,6 +21,7 @@ export const DEFAULT_SETTINGS = {
   // 想要玻璃质感就在面板里把"侧栏玻璃实度"往上推。
   sidebarGlass: 0,
   panelGlass: 0.88,
+  inputGlass: 0.97,
   blur: 20,
   scrim: 100,
   text: "custom",
@@ -316,6 +317,7 @@ export function loadSettings(storage) {
   if (parsed === null || typeof parsed !== "object") return settings;
   settings.sidebarGlass = clamp(parsed.sidebarGlass, 0.15, 1, DEFAULT_SETTINGS.sidebarGlass);
   settings.panelGlass = clamp(parsed.panelGlass, 0.3, 1, DEFAULT_SETTINGS.panelGlass);
+  settings.inputGlass = clamp(parsed.inputGlass, 0.8, 1, DEFAULT_SETTINGS.inputGlass);
   settings.blur = clamp(parsed.blur, 0, 32, DEFAULT_SETTINGS.blur);
   settings.scrim = clamp(parsed.scrim, 0, 100, DEFAULT_SETTINGS.scrim);
   const knownText = parsed.text === "custom" || TEXT_PRESETS.some(preset => preset.value === parsed.text);
@@ -357,6 +359,7 @@ export function applySettings(root, settings) {
   const style = root.style;
   style.setProperty("--beach-glass-alpha", String(settings.sidebarGlass));
   style.setProperty("--beach-panel-alpha", String(settings.panelGlass));
+  style.setProperty("--beach-input-alpha", String(settings.inputGlass));
   style.setProperty("--beach-blur", `${settings.blur}px`);
   style.setProperty("--beach-scrim-strength", String(settings.scrim / 100));
   style.setProperty("--beach-art-size", settings.wallpaperFit === "contain" ? "contain" : "cover");
@@ -415,6 +418,7 @@ export function clearSettings(root) {
   const properties = [
     "--beach-glass-alpha",
     "--beach-panel-alpha",
+    "--beach-input-alpha",
     "--beach-blur",
     "--beach-scrim-strength",
     "--beach-art-size",
@@ -587,6 +591,8 @@ export function createSettingsPanel(options) {
     value => `${Math.round(value)}%`, value => emitTransient({ sidebarGlass: value / 100 }));
   const panelRow = rangeRow("面板实度（输入框/气泡）", settings.panelGlass, 30, 100, 1,
     value => `${Math.round(value)}%`, value => emitTransient({ panelGlass: value / 100 }));
+  const inputRow = rangeRow("输入框实度（历史文字透上来时往上调）", settings.inputGlass * 100, 80, 100, 1,
+    value => `${Math.round(value)}%`, value => emitTransient({ inputGlass: value / 100 }));
   const blurRow = rangeRow("背景模糊", settings.blur, 0, 32, 1,
     value => `${Math.round(value)}px`, value => emitTransient({ blur: value }));
   const scrimRow = rangeRow("壁纸遮罩（越大字越清楚）", settings.scrim, 0, 100, 5,
@@ -750,6 +756,7 @@ export function createSettingsPanel(options) {
     wallpaperRow.node,
     sidebarRow.node,
     panelRow.node,
+    inputRow.node,
     blurRow.node,
     scrimRow.node,
     textRow.node,
@@ -799,6 +806,7 @@ export function createSettingsPanel(options) {
     settings = { ...DEFAULT_SETTINGS, wallpaperSource: { ...DEFAULT_SETTINGS.wallpaperSource } };
     sidebarRow.sync(settings.sidebarGlass * 100);
     panelRow.sync(settings.panelGlass * 100);
+    inputRow.sync(settings.inputGlass * 100);
     blurRow.sync(settings.blur);
     scrimRow.sync(settings.scrim);
     textRow.sync(settings.text);
