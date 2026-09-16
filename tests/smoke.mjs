@@ -74,8 +74,10 @@ for (const token of [
 ]) {
   check(`不覆盖浮层 token ${token}`, styleText.includes(token), false)
 }
-// 代码块是唯一被刻意覆盖的 markdown token：深青底 + 暖白字是配色方案的一部分。
-check('代码块使用深青底', styleText.includes('--dsw-alias-markdown-code-block: rgba(28, 40, 42, 0.92)'), true)
+// 代码块 / 终端 / 工具卡的颜色一律交还官方：它们的底色与文字色（含 shiki 高亮）
+// 必须由同一个来源成对给出，皮肤插手任何一边都会拆散这对配色。
+check('不覆盖代码块 token', /^\s*--dsw-alias-markdown-code-block:/m.test(styleText), false)
+check('不覆盖终端颜色', /\[data-terminal\][^{]*\{[^}]*background-color/.test(styleText), false)
 check('侧栏规则不使用 backdrop-filter', /sidebarCol[^{]*\{[^}]*backdrop-filter/.test(styleText), false)
 check('输入卡片不使用 backdrop-filter', /\[data-composer-card\]\s*\{[^}]*backdrop-filter/.test(styleText), false)
 check('侧栏透明规则放过弹框', /sidebarCol[\s\S]*?:not\(\[role="dialog"\]\)/.test(styleText), true)

@@ -48,7 +48,6 @@ body[data-dsh-beach-chatgpt] {
   --beach-bubble-user-ink: #203638;
   --beach-ink-h3: #243c3e;                   /* 小标题 */
   --beach-placeholder: #7d8e8f;
-  --beach-code-block: rgba(27, 40, 42, 0.93);
   --beach-code-block-ink: #edf2ee;
   --beach-code-inline: #375f5a;
   --beach-code-inline-bg: rgba(207, 225, 219, 0.55);
@@ -99,8 +98,6 @@ body[data-dsh-beach-chatgpt] {
   --dsw-alias-border-l1: rgba(55, 86, 87, 0.20);
   --dsw-alias-border-l2: rgba(55, 86, 87, 0.32);
   --dsw-alias-markdown-inline-code: var(--beach-code-inline-bg);
-  /* 代码块：深青底 + 暖白字，与照片背景形成反差 */
-  --dsw-alias-markdown-code-block: rgba(28, 40, 42, 0.92);
   --dsw-alias-markdown-placeholder: var(--beach-ink-faint);
   --dsw-alias-brand-primary: var(--beach-sea);
   --dsw-alias-scrollbar-bg-l1: var(--beach-scroll-thumb);
@@ -144,7 +141,6 @@ body[data-dsh-beach-chatgpt][data-ds-dark-theme] {
   --beach-bubble-user-ink: #e8edec;
   --beach-ink-h3: #dce6e4;
   --beach-placeholder: #8fa0a0;
-  --beach-code-block: rgba(12, 20, 21, 0.95);
   --beach-code-block-ink: #edf2ee;
   --beach-code-inline: #a8d5ce;
   --beach-code-inline-bg: rgba(82, 124, 117, 0.28);
@@ -168,7 +164,6 @@ body[data-dsh-beach-chatgpt][data-ds-dark-theme] {
 
   --dsw-alias-border-l1: rgba(148, 190, 186, 0.18);
   --dsw-alias-border-l2: rgba(148, 190, 186, 0.30);
-  --dsw-alias-markdown-code-block: rgba(12, 20, 21, 0.93);
   --dsw-alias-markdown-inline-code: var(--beach-code-inline-bg);
 }
 
@@ -361,14 +356,6 @@ body[data-dsh-beach-chatgpt] :is([class*="markdown"], [data-chat-flow]) a:hover 
   color: var(--beach-link-hover);
 }
 
-/* 背景已经够亮，代码块反过来做深色，成为整页的视觉锚点。 */
-body[data-dsh-beach-chatgpt] :is([class*="markdown"], [data-chat-flow]) pre {
-  color: var(--beach-code-block-ink);
-  background-color: var(--beach-code-block);
-  border: 1px solid rgba(137, 171, 163, 0.22);
-  box-shadow: 0 8px 28px rgba(20, 31, 32, 0.14);
-}
-
 /* 行内 code 走浅绿底 + 深青字，不跟代码块抢注意力。 */
 body[data-dsh-beach-chatgpt] :is([class*="markdown"], [data-chat-flow]) :not(pre) > code {
   color: var(--beach-code-inline);
@@ -431,64 +418,14 @@ body[data-dsh-beach-chatgpt] [data-composer-card] [data-composer-input] {
   caret-color: var(--beach-sea);
 }
 
-/* ── 终端：深底浅字，和代码块用同一套反差 ───────────────────
-   这里原本是象牙白底（跟着"背景一体"走），于是思考过程里展开的 bash
-   输出变成浅色文字压在浅底上 —— 观感就是"糊成一片、看不清"。
-   xterm 的主题色给它自己，皮肤只负责把底压深。 */
-body[data-dsh-beach-chatgpt] :is([data-terminal], [class*="xterm"]) {
-  color: var(--beach-code-block-ink);
-  background-color: var(--beach-code-block);
-}
-
-body[data-dsh-beach-chatgpt] :is([data-terminal], [class*="xterm"]) :is(
-  [class*="xterm-viewport"],
-  [class*="xterm-screen"],
-  [class*="xterm-scrollable-element"]
-) {
-  background-color: transparent;
-}
-
-/* ── 深色卡片里的文字：就地重绑语义 token ─────────────────────
-   工具行展开后的终端卡与 IN/OUT 卡是深底（--beach-code-block），
-   但官方组件在里面用的是 label-caption / label-tertiary 这类**弱化色**
-   （浅灰 #78898A）—— 深底配浅灰就是"糊成一片"。这里在深色作用域内
-   重新绑定这几个 token，卡片内部所有文字自动翻成浅色，不必逐个去猜
-   它的 CSS Modules 哈希类名。 */
-body[data-dsh-beach-chatgpt] :is(
-  [class*="ioCard"],
-  [class*="ioSection"],
-  [class*="terminalBody"],
-  [class*="ToolDetails"],
-  [data-terminal],
-  [class*="xterm"]
-) {
-  --dsw-alias-label-primary: #edf2ee;
-  --dsw-alias-label-primary-bluish: #dff0ea;
-  --dsw-alias-label-secondary: #cfe0da;
-  --dsw-alias-label-tertiary: #b3c9c4;
-  --dsw-alias-label-caption: #b3c9c4;
-  --dsw-alias-label-dimmed: #9fb5b0;
-  --dsw-alias-label-primary-foreground: #14302c;
-  --dsw-alias-border-l1: rgba(137, 171, 163, 0.30);
-  --dsw-alias-border-l2: rgba(137, 171, 163, 0.42);
-  --dsw-alias-markdown-code-block: var(--beach-code-block);
-}
-
-/* 这些卡片本身也要有底：万一某条路径没吃到 markdown token，
-   深色作用域里的浅色文字会落在透明底上。 */
-body[data-dsh-beach-chatgpt] :is(
-  [class*="ioCard"],
-  [class*="terminalBody"],
-  [class*="terminal"]
-):not([class*="terminalToggle"]) {
-  background-color: var(--beach-code-block);
-}
-
-/* 思考过程 / 工具卡里的等宽输出同样兜底成深底浅字。 */
-body[data-dsh-beach-chatgpt] :is([data-variant="think"], [data-tool], [class*="toolRow"], [class*="tool-row"]) pre {
-  color: var(--beach-code-block-ink);
-  background-color: var(--beach-code-block);
-}
+/* ── 代码块、终端、工具卡：一律不覆盖颜色 ───────────────────
+   这三类容器的底色与文字色**必须由同一个来源给出**，否则就会出现
+   "深底配深字/浅底配浅字"的糊。官方在这方面是成对的：
+     · --dsw-alias-markdown-code-block：亮色 neutral-bluish-50（浅）、
+       暗色 neutral-bluish-900（深）；
+     · 代码高亮（shiki）也按主题给一整套配色。
+   所以皮肤在这里只做一件事：什么都不改。踩过的两次坑都记在
+   docs/notes.md 里。 */
 
 /* ── 滚动条跟随皮肤配色（ui-theme 的滚动条样式读同批 token） ── */
 body[data-dsh-beach-chatgpt] * {

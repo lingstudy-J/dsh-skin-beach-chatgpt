@@ -261,7 +261,7 @@ chmod +x uninstall.sh && ./uninstall.sh
 | 用户消息底 / 字 | `--beach-bubble-user` / `-ink` | `rgba(218,234,229,.84)` / `#203638` | `rgba(46,74,70,.72)` / `#E8EDEC` |
 | 侧栏玻璃 / 字 | `--beach-sidebar-rgb` / `-ink` | `238 242 239` / `#31494A` | `22 34 36` / `#DCE6E4` |
 | 侧栏选中 / hover | `--beach-sidebar-active` / `-hover` | `rgba(183,211,203,.55)` / `rgba(214,228,223,.48)` | `rgba(82,124,117,.42)` / `rgba(82,124,117,.22)` |
-| 代码块 / 终端 底·字 | `--beach-code-block` / `--beach-code-block-ink` | `rgba(27,40,42,.93)` / `#EDF2EE` | `rgba(12,20,21,.95)` / `#EDF2EE` |
+| 代码块 / 终端 / 工具卡 | **不覆盖**（刻意留白） | 跟随官方主题：亮色浅底深字 | 暗色深底浅字 |
 | 行内代码 / 底 | `--beach-code-inline` / `-bg` | `#375F5A` / `rgba(207,225,219,.55)` | `#A8D5CE` / `rgba(82,124,117,.28)` |
 | 壁纸薄雾 | `--beach-veil` | `rgba(26,52,54,.06)` | `rgba(6,16,17,.20)` |
 
