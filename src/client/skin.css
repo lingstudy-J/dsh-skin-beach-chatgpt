@@ -456,27 +456,34 @@ body[data-dsh-beach-chatgpt] .md-code-block [class*="banner"] {
 
 body[data-dsh-beach-chatgpt] [data-terminal] {
   --dsl-terminal-radius: 10px;
+  /* bash-sample 会给同一个元素再叠一条 0.5px 的 border-l1；留着它就会和
+     下面这圈 1px 外框画成双线。这里让位给外框，边框交给 box-shadow。 */
+  border: 0;
   box-shadow:
-    0 0 0 1px rgba(82, 124, 117, 0.16),
+    0 0 0 1px rgba(82, 124, 117, 0.18),
     0 2px 8px rgba(38, 56, 58, 0.04),
     0 8px 24px rgba(38, 56, 58, 0.035);
 }
 
 /* 终端的 banner 与卡片同面（TerminalBlock 没给 header 单独的 token），
-   所以这里显式把它提出来做成一栏浅灰绿顶栏。 */
+   这里显式把它提成一栏：比 Markdown 代码块的 banner 略深一档，
+   让"壳 → 内容"的层次看得出来。 */
 body[data-dsh-beach-chatgpt] [data-terminal] > [class*="header"] {
   color: #52686a;
-  background-color: rgba(242, 246, 243, 0.96);
-  border-bottom: 1px solid rgba(82, 124, 117, 0.12);
+  background-color: rgba(235, 241, 238, 0.97);
+  /* 官方只在非 running 时给 0.5px 下边框；这里统一成 1px，两种状态一致。 */
+  border-bottom: 1px solid rgba(82, 124, 117, 0.14);
 }
 
-/* header 的 color 只对没自己设色的元素生效，状态/路径/命令单独点名 */
-body[data-dsh-beach-chatgpt] [data-terminal] :is(
-  [class*="runStateLabel"],
-  [class*="cwd"],
-  [class*="command"]
-) {
-  color: #52686a;
+/* 顶栏里的文字分层次：命令最重、路径次之。
+   运行状态（状态点 / 状态文字 / 状态 Pill）一律沿用 DSH 官方语义色，
+   皮肤不重新定义 —— 状态色是全局语义，不该被皮肤改写。 */
+body[data-dsh-beach-chatgpt] [data-terminal] [class*="command"] {
+  color: #26383a;
+}
+
+body[data-dsh-beach-chatgpt] [data-terminal] [class*="cwd"] {
+  color: #6b7e7f;
 }
 
 body[data-dsh-beach-chatgpt] :is(.md-code-block, [data-terminal]) [class*="copyButton"] {

@@ -249,11 +249,30 @@ chmod +x uninstall.sh && ./uninstall.sh
 | --- | --- | --- |
 | Markdown 代码块 | 圆角 10px、外框 `rgba(82,124,117,.16)`、两层轻投影 | `.md-code-block`（`CodeBlock.tsx` 里的明文类名） |
 | 代码块顶栏 | 底色 `rgba(242,246,243,.96)`、文字 `#52686A`、下边框 | 组件变量 `--dsl-code-block-banner-background-color` |
-| Bash 终端卡 | 圆角 10px、同样的外框与投影 | `[data-terminal]`（`TerminalBlock.tsx`） |
-| 终端顶栏 | 同代码块顶栏（终端 header 本与卡片同面，这里显式提成一栏） | `[data-terminal] > [class*="header"]` |
+| Bash 终端卡 | 圆角 10px、外框 `rgba(82,124,117,.18)`、两层投影；`border: 0` 让位给外框（`bash-sample` 会给同一元素再叠一条 0.5px 边框，留着就是双线） | `[data-terminal]`（`TerminalBlock.tsx`） |
+| 终端顶栏 | 比代码顶栏深一档：`rgba(235,241,238,.97)` + `#52686A` + 1px `rgba(82,124,117,.14)` 下边框（官方只在非 running 时给下边框，这里统一成两种状态一致） | `[data-terminal] > [class*="header"]` |
 | 复制按钮 | hover：文字 `#2E716C`、底 `rgba(220,234,230,.65)` | `[class*="copyButton"]:hover` |
 
 外框用 `box-shadow: 0 0 0 1px` 画而不是 `border` —— 后者会改变盒模型、把内容挤动 1px。整块**不使用** `filter` / `backdrop-filter` / `opacity`，也不加覆盖在文字上的伪元素。
+
+**终端顶栏里的文字层次**：命令 `#26383A`（最重）、路径 `#6B7E7F`（次之）、Copy `#52686A`（hover `#2E716C`）；而**运行状态点、状态文字、状态 Pill 一律沿用 DSH 官方语义色**——状态色是全局语义，皮肤不重新定义。
+
+**圆角裁切**：`--dsl-terminal-radius: 10px` 一处重绑即同时作用于卡片与顶栏（`TerminalBlock` 的顶栏圆角本就引用同一个变量），加上卡片自带的 `overflow: hidden`，output 的四角不会漏白。
+
+### 设计语言：统一的是语言，不是底色
+
+这套皮肤不追求"所有区域一个底色"，而是一条自上而下的层次：
+
+```
+海边背景
+  ↓  象牙白毛玻璃聊天区（正文底衬 76%）
+  ↓  青灰绿组件外壳（1px 外框 + 10px 圆角 + 轻投影 + 略深的顶栏）
+  ↓  清晰的白色代码 / 终端内容纸面（完全由 DSH 官方控制）
+```
+
+所以终端内部那块近白的 output 是**刻意保留**的：它被外框、圆角、投影和一栏略深的顶栏"装"进卡片里，读作"卡片内部的内容纸面"，而不是一块突兀的白。**没有**在 output 上加任何半透明蒙层、滤镜或不透明度。
+
+### 想整体换掉代码高亮？
 
 ### 想整体换掉代码高亮？
 

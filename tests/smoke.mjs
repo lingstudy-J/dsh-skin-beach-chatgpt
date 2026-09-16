@@ -89,6 +89,15 @@ check('终端只重绑组件圆角变量', styleText.includes('--dsl-terminal-ra
 check('不覆盖 shiki 配色', /^\s*--shiki-/m.test(styleText), false)
 check('样式表不含生效的 backdrop-filter', /^\s*backdrop-filter:/m.test(styleText), false)
 check('样式表不含 filter: blur', /^\s*filter:\s*blur/m.test(styleText), false)
+
+// ── 终端外壳：容器感来自外框/顶栏，而不是动 output ─────────────
+check('终端外框强度 0.18', styleText.includes('0 0 0 1px rgba(82, 124, 117, 0.18)'), true)
+check('终端顶栏比代码顶栏深一档', styleText.includes('rgba(235, 241, 238, 0.97)'), true)
+check('顶栏下边框 1px', styleText.includes('border-bottom: 1px solid rgba(82, 124, 117, 0.14)'), true)
+check('命令用主文字色', /\[data-terminal\][^{]*\[class\*="command"\][^{]*\{[^}]*#26383a/.test(styleText), true)
+check('路径用辅助色', /\[data-terminal\][^{]*\[class\*="cwd"\][^{]*\{[^}]*#6b7e7f/.test(styleText), true)
+check('不改写运行状态文字颜色', styleText.includes('runStateLabel'), false)
+check('不碰终端 output 的颜色', /\[class\*="output"\][^{]*\{[^}]*\b(color|background)/.test(styleText), false)
 check('侧栏规则不使用 backdrop-filter', /sidebarCol[^{]*\{[^}]*backdrop-filter/.test(styleText), false)
 check('输入卡片不使用 backdrop-filter', /\[data-composer-card\]\s*\{[^}]*backdrop-filter/.test(styleText), false)
 check('侧栏透明规则放过弹框', /sidebarCol[\s\S]*?:not\(\[role="dialog"\]\)/.test(styleText), true)

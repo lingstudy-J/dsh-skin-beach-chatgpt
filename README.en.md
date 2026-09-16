@@ -248,11 +248,30 @@ Code blocks and the Bash terminal keep their **official inner colours** (shiki h
 | --- | --- | --- |
 | Markdown code block | 10px radius, `rgba(82,124,117,.16)` outline, two soft shadows | `.md-code-block` (the plain class name in `CodeBlock.tsx`) |
 | Code block banner | `rgba(242,246,243,.96)` background, `#52686A` text, bottom hairline | component variable `--dsl-code-block-banner-background-color` |
-| Bash terminal card | 10px radius, same outline and shadows | `[data-terminal]` (`TerminalBlock.tsx`) |
-| Terminal banner | same as the code banner (the terminal header shares the card surface, so it is lifted into its own strip here) | `[data-terminal] > [class*="header"]` |
+| Bash terminal card | 10px radius, `rgba(82,124,117,.18)` outline, two soft shadows; `border: 0` yields to that outline (`bash-sample` adds its own 0.5px border to the same element — keeping both would draw a double line) | `[data-terminal]` (`TerminalBlock.tsx`) |
+| Terminal banner | one notch deeper than the code banner: `rgba(235,241,238,.97)` + `#52686A` + a 1px `rgba(82,124,117,.14)` bottom hairline (official only draws it when not running; this makes both states agree) | `[data-terminal] > [class*="header"]` |
 | Copy button | hover: `#2E716C` text on `rgba(220,234,230,.65)` | `[class*="copyButton"]:hover` |
 
 The outline is drawn with `box-shadow: 0 0 0 1px` rather than `border` — a border would change the box model and nudge the content by 1px. Nothing here uses `filter` / `backdrop-filter` / `opacity`, and no pseudo-element is laid over the text.
+
+**Text hierarchy in the terminal banner**: the command is `#26383A` (heaviest), the cwd `#6B7E7F` (next), Copy `#52686A` (hover `#2E716C`); the **run-state dot, state text and state pill keep DSH's official semantic colours** — state colour is global semantics, not something a skin should redefine.
+
+**Corner clipping**: rebinding `--dsl-terminal-radius: 10px` once covers both the card and its banner (`TerminalBlock`'s banner already references that variable), and the card's own `overflow: hidden` keeps the output from leaking white at the corners.
+
+### Design language: unify the language, not the background
+
+This skin does not aim for one background colour everywhere; it aims for a top-down hierarchy:
+
+```
+seaside wallpaper
+  ↓  ivory frosted transcript (76% backing)
+  ↓  cool grey-green component shell (1px outline + 10px radius + soft shadows + a deeper banner)
+  ↓  crisp white code / terminal paper (entirely under DSH's official control)
+```
+
+The near-white terminal output is therefore **deliberately kept**: the outline, radius, shadows and slightly deeper banner frame it as "the paper inside the card" instead of a stray white patch. **No** translucent overlay, filter or opacity is applied to that output.
+
+### Want to swap the whole code theme?
 
 ### Want to swap the whole code theme?
 
