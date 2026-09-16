@@ -10,7 +10,7 @@
  */
 
 /** localStorage 键；带版本号，便于日后无损迁移。 */
-export const SETTINGS_STORAGE_KEY = "dsh-skin-beach-chatgpt:settings:v3";
+export const SETTINGS_STORAGE_KEY = "dsh-skin-beach-chatgpt:settings:v4";
 
 /** 本地图片最长边上限：再大也只是徒增 localStorage 体积与解码开销。 */
 const IMPORTED_IMAGE_MAX_EDGE = 2560;
@@ -19,15 +19,15 @@ const IMPORTED_IMAGE_MAX_EDGE = 2560;
 export const DEFAULT_SETTINGS = {
   // 侧栏比会话内容层更透明一点：它不该比正文抢眼，但完全透明时长时间
   // 阅读会累，所以默认留一层 68% 的灰绿玻璃。推到 0 就是完全透明。
-  sidebarGlass: 0.68,
+  sidebarGlass: 0.57,
   panelGlass: 0.82,
-  inputGlass: 0.88,
+  inputGlass: 0.82,
   blur: 20,
   scrim: 100,
   text: "custom",
   customInk: "#26383a",
   customInkDark: "#e8edec",
-  textScrim: 76,
+  textScrim: 66,
   textShadow: true,
   accent: "sea",
   appearance: "auto",

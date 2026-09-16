@@ -91,8 +91,16 @@ check('样式表不含生效的 backdrop-filter', /^\s*backdrop-filter:/m.test(s
 check('样式表不含 filter: blur', /^\s*filter:\s*blur/m.test(styleText), false)
 
 // ── 终端外壳：容器感来自外框/顶栏，而不是动 output ─────────────
-check('终端外框强度 0.18', styleText.includes('0 0 0 1px rgba(82, 124, 117, 0.18)'), true)
-check('终端顶栏比代码顶栏深一档', styleText.includes('rgba(235, 241, 238, 0.97)'), true)
+check('纸卡外框 0.14', styleText.includes('0 0 0 1px rgba(82, 124, 117, 0.14)'), true)
+check('终端顶栏比代码顶栏深一档', styleText.includes('rgba(235, 241, 238, 0.92)'), true)
+
+// ── 分层承托：背景图优先，没有任何一层是白板 ───────────────────
+check('顶栏最透（40%）', styleText.includes('--beach-header-alpha: 0.40'), true)
+check('正文底衬 66%', styleText.includes('--beach-text-scrim: 0.66'), true)
+check('正文区用横向渐变承托', /\[data-chat-flow\][^{]*\{[^}]*linear-gradient\(\s*90deg/s.test(styleText), true)
+check('侧栏层次靠阴影而非加深底色', styleText.includes('inset -1px 0 rgba(82, 124, 117, 0.10)'), true)
+check('整页遮罩已减薄', styleText.includes('0.22 * var(--beach-scrim-strength)'), true)
+check('文字阴影极轻（白晕 0.35）', styleText.includes('rgba(255, 255, 255, 0.35)'), true)
 check('顶栏下边框 1px', styleText.includes('border-bottom: 1px solid rgba(82, 124, 117, 0.14)'), true)
 check('命令用主文字色', /\[data-terminal\][^{]*\[class\*="command"\][^{]*\{[^}]*#26383a/.test(styleText), true)
 check('路径用辅助色', /\[data-terminal\][^{]*\[class\*="cwd"\][^{]*\{[^}]*#6b7e7f/.test(styleText), true)
@@ -107,12 +115,12 @@ check('浮层容器已挂载', body.querySelectorAll('.dsh-beach-host').length, 
 check('首次运行自动展开面板', shadowRoot().querySelector('.dsh-beach-panel').hidden, false)
 
 // ── 默认设置落到 body ─────────────────────────────────────────
-check('侧栏玻璃默认值（轻玻璃）', body.style.getPropertyValue('--beach-glass-alpha'), '0.68')
+check('侧栏玻璃默认值（漂浮玻璃菜单）', body.style.getPropertyValue('--beach-glass-alpha'), '0.57')
 check('面板实度默认值', body.style.getPropertyValue('--beach-panel-alpha'), '0.82')
-check('输入框实度默认值', body.style.getPropertyValue('--beach-input-alpha'), '0.88')
+check('输入框实度默认值', body.style.getPropertyValue('--beach-input-alpha'), '0.82')
 check('模糊默认值', body.style.getPropertyValue('--beach-blur'), '20px')
 check('遮罩默认值', body.style.getPropertyValue('--beach-scrim-strength'), '1')
-check('正文底衬默认开启', body.style.getPropertyValue('--beach-text-scrim'), '0.76')
+check('正文底衬默认开启', body.style.getPropertyValue('--beach-text-scrim'), '0.66')
 check('默认文字档位', body.getAttribute('data-beach-text'), 'custom')
 check('默认强调色', body.getAttribute('data-beach-accent'), 'sea')
 check('默认壁纸开关', body.getAttribute('data-beach-wallpaper'), 'on')
@@ -205,7 +213,7 @@ clickByText('完整显示')
 check('铺满方式', body.style.getPropertyValue('--beach-art-size'), 'contain')
 
 // ── 持久化与还原 ─────────────────────────────────────────────
-const stored = JSON.parse(window.localStorage.getItem('dsh-skin-beach-chatgpt:settings:v3'))
+const stored = JSON.parse(window.localStorage.getItem('dsh-skin-beach-chatgpt:settings:v4'))
 check('设置已持久化', stored?.text, 'custom')
 check('自定义色已持久化', stored?.customInk, '#336699')
 check('正文底衬已持久化', stored?.textScrim, 40)

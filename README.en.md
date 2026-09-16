@@ -16,7 +16,7 @@
 ## Features
 
 - **Full-page wallpaper** — the 4K original is downscaled to a 2560×1440 WebP and **inlined into the plugin bundle**: no temp files, remote URLs or asset server involved.
-- **One continuous wallpaper plus two adjustable glass layers** — the wallpaper is painted once on `body` (`fixed` + `cover`) and the layout columns stay transparent, so the image runs unbroken from sidebar to transcript; the transcript and the sidebar each carry an ivory glass layer (76% / 68% by default), which keeps the airy look while giving long-form reading a stable backing. A 6% grey-teal veil sits on top, only to tame the sky and sea highlights.
+- **One continuous wallpaper plus two adjustable glass layers** — the wallpaper is painted once on `body` (`fixed` + `cover`) and the layout columns stay transparent, so the image runs unbroken from sidebar to transcript; the transcript and the sidebar each carry an ivory glass layer (66% / 57% by default) — **the wallpaper stays the protagonist**, no layer is a white slab. A 6% grey-teal veil sits on top, only to tame the sky and sea highlights.
 - **Light and dark themes** — "morning sea" and "dusk sea" (the same wallpaper dimmed into dusk, with dark glass on the UI layer). The panel's **appearance** row offers **follow system** (default: both themes) or **always light**, which removes the host's dark marker so DSH renders light as well.
 - **Never touches DSH's own popovers** — the semantic tokens and stacking contexts behind the settings dialog, menus, toasts and code blocks stay official. The skin neither recolours their backgrounds nor puts `backdrop-filter` on a container that hosts a popover (that would pin the popover to the container's layer).
 - **Colours only, never layout** — no `display` / grid / size rules, so sidebar dragging, workbench push and window resizing behave exactly as before.
@@ -205,15 +205,15 @@ The skin ships its own panel — no extra plugin required.
 | Fit | cover / contain | cover | cover crops but fills; contain shows everything |
 | **Appearance** | follow system / always light | follow system | "always light" removes the host's dark marker so DSH renders light as well (restored on uninstall) |
 | Wallpaper | on / off | on | off keeps palette + glass only |
-| Sidebar glass | 0–100% | **68%** | sidebar glass, slightly more transparent than the transcript layer (it should not out-shout the text); 0 leaves the wallpaper alone |
+| Sidebar glass | 0–100% | **57%** | the sidebar should read as a floating glass menu on the wallpaper; hierarchy comes from shadow, not from a darker fill |
 | Panel glass | 30–100% | **82%** | toolbars (bubbles and the composer have their own rows) |
-| **Composer glass** | 80–100% | **88%** | the composer floats above the transcript scroller and runs a bit more opaque than a normal card; **raise it if scrolling back bleeds text through** |
+| **Composer glass** | 80–100% | **82%** | the composer is the most solid layer on screen (the bottom anchor); **raise it if scrolling back bleeds text through** |
 | Backdrop blur | 0–32 px | 20 px | user bubbles only — containers that host official popovers never take `backdrop-filter`; 0 disables frosting |
 | Wallpaper scrim | 0–100% | 100% | the haze over the wallpaper; **raise it when text is hard to read** |
 | Text palette | cool / warm / high-contrast | cool | preset slot, separate values per theme; touching either colour picker below switches to "custom" |
 | **Custom text colour · light** | any `#RRGGBB` | `#14303f` | picking a colour switches to the custom slot; secondary/tertiary ink is derived from the same hue |
 | **Custom text colour · dark** | any `#RRGGBB` | `#eaf3f8` | stored **separately** from the light one: the dark theme dims the whole surface, so one colour cannot read well in both |
-| **Text backing** | 0–80% | **76%** | the ivory glass layer behind the transcript. **On by default** — text no longer sits directly on the photo; lower it to let more wallpaper through (72% is a sensible floor) |
+| **Text backing** | 0–80% | **66%** | the ivory glass behind the transcript, drawn as a **horizontal gradient** (left 72% → middle 66% → right 52%): denser text on the left gets more support, the right keeps the sea and sunlight |
 | Text shadow | on / off | on | a very light outline shadow (white halo on light themes, dark on dark) |
 | Accent | sea / sunset / mint / sakura | sea | links, focus rings, sliders, brand colour |
 
@@ -221,7 +221,7 @@ The skin ships its own panel — no extra plugin required.
 
 The wallpaper is a photograph, so local brightness is out of our control and collisions are inevitable. Try, in order:
 
-1. **text backing** — already on at 76%; push it to 80% if you still squint (higher starts hiding the wallpaper);
+1. **text backing** — already on at 66%; push it to 80% if you still squint (higher starts hiding the wallpaper);
 2. switch the **text palette** preset, or pick a colour with a clearly different luminance in the **colour picker** — light and dark each have their **own picker**, stored separately, because the dark theme dims the whole surface;
 3. turn on **text shadow** (on by default);
 4. only then raise the **wallpaper scrim** — it is global and affects the whole picture.
@@ -263,10 +263,11 @@ The outline is drawn with `box-shadow: 0 0 0 1px` rather than `border` — a bor
 This skin does not aim for one background colour everywhere; it aims for a top-down hierarchy:
 
 ```
-seaside wallpaper
-  ↓  ivory frosted transcript (76% backing)
-  ↓  cool grey-green component shell (1px outline + 10px radius + soft shadows + a deeper banner)
-  ↓  crisp white code / terminal paper (entirely under DSH's official control)
+seaside wallpaper (100%, only a 6% veil on top)
+  ↓  top bar 40% · sidebar 57%
+  ↓  transcript 66% (horizontal gradient, stronger on the left)
+  ↓  user messages 78% · composer 82%
+  ↓  code / terminal: official paper card + hairline grey-green outline + soft float shadow
 ```
 
 The near-white terminal output is therefore **deliberately kept**: the outline, radius, shadows and slightly deeper banner frame it as "the paper inside the card" instead of a stray white patch. **No** translucent overlay, filter or opacity is applied to that output.

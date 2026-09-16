@@ -39,12 +39,12 @@ body[data-dsh-beach-chatgpt] {
 
   /* ── 面层：象牙白玻璃 + 鼠尾草绿点缀 ───────────────────── */
   --beach-veil: rgba(26, 52, 54, 0.06);      /* 壁纸之上的一层极轻灰青薄雾 */
-  --beach-sidebar-rgb: 238 242 239;          /* 侧栏玻璃比主面板更灰一点 */
+  --beach-sidebar-rgb: 239 243 240;          /* 侧栏是漂浮在壁纸上的玻璃菜单 */
   --beach-sidebar-ink: #31494a;
-  --beach-sidebar-hover: rgba(214, 228, 223, 0.48);
-  --beach-sidebar-active: rgba(183, 211, 203, 0.55);
+  --beach-sidebar-hover: rgba(226, 238, 233, 0.42);
+  --beach-sidebar-active: rgba(212, 231, 224, 0.58);
   --beach-sidebar-active-ink: #1e3a39;
-  --beach-bubble-user: rgba(218, 234, 229, 0.84);   /* 用户消息：薄荷绿 */
+  --beach-bubble-user: rgba(218, 234, 229, 0.78);   /* 用户消息：薄荷绿 */
   --beach-bubble-user-ink: #203638;
   --beach-ink-h3: #243c3e;                   /* 小标题 */
   --beach-placeholder: #7d8e8f;
@@ -52,13 +52,16 @@ body[data-dsh-beach-chatgpt] {
   --beach-code-inline: #375f5a;
   --beach-code-inline-bg: rgba(207, 225, 219, 0.55);
 
-  /* 玻璃基色与可调旋钮（设置面板写的就是这几个）。
-     侧栏默认只有 18% 的轻遮盖，壁纸因此从左到右是一张图；想让侧栏更"实"
-     就在面板里推高"侧栏玻璃实度"，代价是壁纸更淡。 */
+  /* ── 分层承托：越需要阅读/交互的地方越实，纯 UI chrome 越透 ────
+     背景图优先展示，所以没有任何一层是"白板"：
+       顶部导航 40% · 侧栏 57% · 正文 66% · 用户消息 78% · 输入框 82%
+     玻璃基色与三个可调旋钮（设置面板写的就是这几个）。 */
   --beach-glass-rgb: 250 249 246;
-  --beach-glass-alpha: 0.68;
+  --beach-input-rgb: 248 247 242;
+  --beach-header-alpha: 0.40;
+  --beach-glass-alpha: 0.57;
   --beach-panel-alpha: 0.82;
-  --beach-text-scrim: 0.76;
+  --beach-text-scrim: 0.66;
   --beach-blur: 20px;
   --beach-scrim-strength: 1;
   --beach-panel-blur: calc(var(--beach-blur) * 0.6);
@@ -67,23 +70,23 @@ body[data-dsh-beach-chatgpt] {
 
   /* 输入框单独一层、且默认接近不透明：它是浮在会话滚动区之上的，
      半透明会让滚上来的历史文字从卡片里透出来，和正在输入的文字糊在一起。 */
-  --beach-input-alpha: 0.88;
+  --beach-input-alpha: 0.82;
 
   --beach-glass: rgb(var(--beach-glass-rgb) / var(--beach-glass-alpha));
   --beach-glass-strong: rgb(var(--beach-glass-rgb) / var(--beach-panel-alpha));
-  --beach-input-surface: rgb(var(--beach-glass-rgb) / var(--beach-input-alpha));
+  --beach-input-surface: rgb(var(--beach-input-rgb) / var(--beach-input-alpha));
 
   --beach-line: rgba(55, 86, 87, 0.20);
   --beach-shadow: 0 18px 44px rgba(23, 41, 44, 0.14), 0 2px 8px rgba(23, 41, 44, 0.09);
   --beach-scrim: linear-gradient(
     180deg,
-    rgb(250 249 246 / calc(0.34 * var(--beach-scrim-strength))) 0%,
-    rgb(232 240 238 / calc(0.54 * var(--beach-scrim-strength))) 100%
+    rgb(250 249 246 / calc(0.22 * var(--beach-scrim-strength))) 0%,
+    rgb(232 240 238 / calc(0.38 * var(--beach-scrim-strength))) 100%
   );
   --beach-scroll-thumb: rgba(82, 124, 117, 0.36);
   --beach-scroll-thumb-hover: rgba(34, 91, 88, 0.56);
-  /* 深字配白晕、浅字配黑影：阴影只为把字从杂乱背景里拎出来。 */
-  --beach-text-shadow-color: rgba(255, 255, 255, 0.65);
+  /* 极轻的一圈白晕：只在字与背景撞色时把字拎出来，不能有发光感。 */
+  --beach-text-shadow-color: rgba(255, 255, 255, 0.35);
 
   /* ── 允许覆盖的 DSH 语义 token（白名单） ─────────────────
      bg-base 透明 → 壁纸透出；其余是文字、边框、品牌色与滚动条。
@@ -299,8 +302,11 @@ body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) :
 body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) {
   color: var(--beach-sidebar-ink);
   background-color: rgb(var(--beach-sidebar-rgb) / var(--beach-glass-alpha));
-  border-right: 1px solid rgba(60, 89, 88, 0.14);
-  box-shadow: none;
+  border-right: 0;
+  /* 层次交给阴影：一条 1px 内描边 + 一层极淡的外投影，不靠加深背景。 */
+  box-shadow:
+    inset -1px 0 rgba(82, 124, 117, 0.10),
+    4px 0 18px rgba(38, 56, 58, 0.035);
 }
 
 /* 选中项/悬停态是交互反馈，不能被上面的透明规则抹掉。 */
@@ -320,8 +326,8 @@ body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"])
 
 /* ── 顶栏与标题栏：与侧栏同一条玻璃，避免横向出现第三种底色 ── */
 body[data-dsh-beach-chatgpt] :is([class*="titlebar"], header[class*="header"]) {
-  background-color: var(--beach-glass);
-  border-bottom: 0.5px solid var(--beach-line);
+  background-color: rgb(var(--beach-glass-rgb) / var(--beach-header-alpha));
+  border-bottom: 0.5px solid rgba(82, 124, 117, 0.12);
 }
 
 /* ── 会话正文的可读性：正文颜色、正文底衬、文字阴影 ─────────
@@ -371,10 +377,17 @@ body[data-dsh-beach-chatgpt] :is([class*="markdown"], [data-chat-flow]) :not(pre
 body[data-dsh-beach-chatgpt] [data-chat-flow] {
   /* 刻意不给描边：正文区那一圈线在照片上很显眼，也把"整页一张图"切断。
      只留底色 + 圆角 + 极淡投影，边界交给明度差去表达。 */
-  background-color: rgb(var(--beach-glass-rgb) / var(--beach-text-scrim, 0.76));
+  /* 横向渐变而不是一整块白膜：左侧文字密，承托略强；右侧留给海面与阳光。
+     三档都跟着"正文底衬"旋钮走，推高就是整体加重。 */
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--beach-glass-rgb) / clamp(0, calc(var(--beach-text-scrim, 0.66) + 0.06), 1)) 0%,
+    rgb(var(--beach-glass-rgb) / var(--beach-text-scrim, 0.66)) 48%,
+    rgb(var(--beach-glass-rgb) / clamp(0, calc(var(--beach-text-scrim, 0.66) - 0.14), 1)) 100%
+  );
   border: 0;
   border-radius: 14px;
-  box-shadow: 0 4px 20px rgba(38, 56, 58, 0.06);
+  box-shadow: 0 4px 20px rgba(38, 56, 58, 0.05);
 }
 
 body[data-dsh-beach-chatgpt][data-beach-text-shadow="on"] :is(
@@ -382,7 +395,7 @@ body[data-dsh-beach-chatgpt][data-beach-text-shadow="on"] :is(
   [class*="markdown"],
   [class*="userRow"] [class*="bubble"]
 ) {
-  text-shadow: 0 1px 2px var(--beach-text-shadow-color);
+  text-shadow: 0 1px 1px var(--beach-text-shadow-color);
 }
 
 /* 占位文字与状态说明压到弱化档，不再跟着正文一起"发灰"。 */
@@ -404,13 +417,17 @@ body[data-dsh-beach-chatgpt] [class*="userRow"] [class*="bubble"] {
    底色用独立且更厚的 --beach-input-surface，避免滚动时历史文字透上来。 */
 body[data-dsh-beach-chatgpt] [data-composer-card] {
   background-color: var(--beach-input-surface);
-  border: 0.5px solid var(--beach-line);
-  box-shadow: var(--beach-shadow);
+  border: 0;
+  box-shadow:
+    0 0 0 1px rgba(82, 124, 117, 0.13),
+    0 5px 18px rgba(38, 56, 58, 0.045);
 }
 
 body[data-dsh-beach-chatgpt] [data-composer-card]:focus-within {
-  border-color: rgba(66, 116, 107, 0.52);
-  box-shadow: 0 0 0 3px rgba(102, 151, 141, 0.10), var(--beach-shadow);
+  box-shadow:
+    0 0 0 1px rgba(66, 116, 107, 0.52),
+    0 0 0 4px rgba(102, 151, 141, 0.10),
+    0 5px 18px rgba(38, 56, 58, 0.045);
 }
 
 body[data-dsh-beach-chatgpt] [data-composer-card] [data-composer-input] {
@@ -444,9 +461,8 @@ body[data-dsh-beach-chatgpt] .md-code-block {
   --dsl-code-block-banner-background-color: rgba(242, 246, 243, 0.96);
   overflow: hidden;
   box-shadow:
-    0 0 0 1px rgba(82, 124, 117, 0.16),
-    0 2px 8px rgba(38, 56, 58, 0.04),
-    0 8px 24px rgba(38, 56, 58, 0.035);
+    0 0 0 1px rgba(82, 124, 117, 0.14),
+    0 6px 20px rgba(38, 56, 58, 0.055);
 }
 
 body[data-dsh-beach-chatgpt] .md-code-block [class*="banner"] {
@@ -460,9 +476,8 @@ body[data-dsh-beach-chatgpt] [data-terminal] {
      下面这圈 1px 外框画成双线。这里让位给外框，边框交给 box-shadow。 */
   border: 0;
   box-shadow:
-    0 0 0 1px rgba(82, 124, 117, 0.18),
-    0 2px 8px rgba(38, 56, 58, 0.04),
-    0 8px 24px rgba(38, 56, 58, 0.035);
+    0 0 0 1px rgba(82, 124, 117, 0.14),
+    0 6px 20px rgba(38, 56, 58, 0.055);
 }
 
 /* 终端的 banner 与卡片同面（TerminalBlock 没给 header 单独的 token），
@@ -470,7 +485,7 @@ body[data-dsh-beach-chatgpt] [data-terminal] {
    让"壳 → 内容"的层次看得出来。 */
 body[data-dsh-beach-chatgpt] [data-terminal] > [class*="header"] {
   color: #52686a;
-  background-color: rgba(235, 241, 238, 0.97);
+  background-color: rgba(235, 241, 238, 0.92);
   /* 官方只在非 running 时给 0.5px 下边框；这里统一成 1px，两种状态一致。 */
   border-bottom: 1px solid rgba(82, 124, 117, 0.14);
 }
@@ -499,8 +514,8 @@ body[data-dsh-beach-chatgpt] :is(.md-code-block, [data-terminal]) [class*="copyB
 body[data-dsh-beach-chatgpt] [data-variant] [class*="ioCard"] {
   border-radius: 10px;
   box-shadow:
-    0 0 0 1px rgba(82, 124, 117, 0.16),
-    0 2px 8px rgba(38, 56, 58, 0.04);
+    0 0 0 1px rgba(82, 124, 117, 0.14),
+    0 6px 20px rgba(38, 56, 58, 0.055);
 }
 
 /* ── 滚动条跟随皮肤配色（ui-theme 的滚动条样式读同批 token） ── */
