@@ -260,7 +260,7 @@ The hues come from the grey-green ribbon in the wallpaper — body text is a dee
 | User bubble bg / text | `--beach-bubble-user` / `-ink` | `rgba(218,234,229,.84)` / `#203638` | `rgba(46,74,70,.72)` / `#E8EDEC` |
 | Sidebar glass / text | `--beach-sidebar-rgb` / `-ink` | `238 242 239` / `#31494A` | `22 34 36` / `#DCE6E4` |
 | Sidebar selected / hover | `--beach-sidebar-active` / `-hover` | `rgba(183,211,203,.55)` / `rgba(214,228,223,.48)` | `rgba(82,124,117,.42)` / `rgba(82,124,117,.22)` |
-| Code block bg / text | `--dsw-alias-markdown-code-block` / `--beach-code-block-ink` | `rgba(28,40,42,.92)` / `#EDF2EE` | `rgba(12,20,21,.93)` / `#EDF2EE` |
+| Code block and terminal bg / text | `--beach-code-block` / `--beach-code-block-ink` | `rgba(27,40,42,.93)` / `#EDF2EE` | `rgba(12,20,21,.95)` / `#EDF2EE` |
 | Inline code / bg | `--beach-code-inline` / `-bg` | `#375F5A` / `rgba(207,225,219,.55)` | `#A8D5CE` / `rgba(82,124,117,.28)` |
 | Wallpaper veil | `--beach-veil` | `rgba(26,52,54,.06)` | `rgba(6,16,17,.20)` |
 

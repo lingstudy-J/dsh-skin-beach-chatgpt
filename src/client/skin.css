@@ -48,6 +48,7 @@ body[data-dsh-beach-chatgpt] {
   --beach-bubble-user-ink: #203638;
   --beach-ink-h3: #243c3e;                   /* 小标题 */
   --beach-placeholder: #7d8e8f;
+  --beach-code-block: rgba(27, 40, 42, 0.93);
   --beach-code-block-ink: #edf2ee;
   --beach-code-inline: #375f5a;
   --beach-code-inline-bg: rgba(207, 225, 219, 0.55);
@@ -143,6 +144,7 @@ body[data-dsh-beach-chatgpt][data-ds-dark-theme] {
   --beach-bubble-user-ink: #e8edec;
   --beach-ink-h3: #dce6e4;
   --beach-placeholder: #8fa0a0;
+  --beach-code-block: rgba(12, 20, 21, 0.95);
   --beach-code-block-ink: #edf2ee;
   --beach-code-inline: #a8d5ce;
   --beach-code-inline-bg: rgba(82, 124, 117, 0.28);
@@ -362,6 +364,7 @@ body[data-dsh-beach-chatgpt] :is([class*="markdown"], [data-chat-flow]) a:hover 
 /* 背景已经够亮，代码块反过来做深色，成为整页的视觉锚点。 */
 body[data-dsh-beach-chatgpt] :is([class*="markdown"], [data-chat-flow]) pre {
   color: var(--beach-code-block-ink);
+  background-color: var(--beach-code-block);
   border: 1px solid rgba(137, 171, 163, 0.22);
   box-shadow: 0 8px 28px rgba(20, 31, 32, 0.14);
 }
@@ -426,9 +429,27 @@ body[data-dsh-beach-chatgpt] [data-composer-card] [data-composer-input] {
   caret-color: var(--beach-sea);
 }
 
-/* ── 终端保持自己的底，不参与背景一体 ─────────────────────── */
+/* ── 终端：深底浅字，和代码块用同一套反差 ───────────────────
+   这里原本是象牙白底（跟着"背景一体"走），于是思考过程里展开的 bash
+   输出变成浅色文字压在浅底上 —— 观感就是"糊成一片、看不清"。
+   xterm 的主题色给它自己，皮肤只负责把底压深。 */
 body[data-dsh-beach-chatgpt] :is([data-terminal], [class*="xterm"]) {
-  background-color: var(--beach-surface-solid);
+  color: var(--beach-code-block-ink);
+  background-color: var(--beach-code-block);
+}
+
+body[data-dsh-beach-chatgpt] :is([data-terminal], [class*="xterm"]) :is(
+  [class*="xterm-viewport"],
+  [class*="xterm-screen"],
+  [class*="xterm-scrollable-element"]
+) {
+  background-color: transparent;
+}
+
+/* 思考过程 / 工具卡里的等宽输出同样兜底成深底浅字。 */
+body[data-dsh-beach-chatgpt] :is([data-variant="think"], [data-tool], [class*="toolRow"], [class*="tool-row"]) pre {
+  color: var(--beach-code-block-ink);
+  background-color: var(--beach-code-block);
 }
 
 /* ── 滚动条跟随皮肤配色（ui-theme 的滚动条样式读同批 token） ── */
