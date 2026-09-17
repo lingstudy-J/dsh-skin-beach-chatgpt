@@ -1,7 +1,7 @@
 # 交接文档 · 海边 ChatGPT 娘皮肤插件
 
 > **读者**：接手这个仓库的下一个会话（人或 AI）。本文件**自包含**——不需要任何前序对话即可上手。
-> **基线**：`55d3368`（2026-09-16）· `tests/smoke.mjs` **129 条断言全绿**
+> **基线**：`55d3368`（2026-09-16）· 工作区 `tests/smoke.mjs` **134 条断言全绿**（含一轮视觉修订，见 §6 第 17–20 条）
 > **状态**：功能与视觉均已定型，处于"只做微调、不重构"阶段
 
 ---
@@ -40,13 +40,14 @@ DeepSeek Harness（DSH）Web GUI 的**整页壁纸皮肤插件**：一张 4K 海
 - 代码块 / Bash / Terminal 的**外壳**处理（内部一律官方）
 - 皮肤自带设置面板（右下角 🌊 / Alt+B）
 - 设置持久化（`localStorage` 键 `dsh-skin-beach-chatgpt:settings:v5`）
-- 129 条防回归断言
+- 134 条防回归断言
 
 ### 未完成 / 可选项
 
 | 项 | 说明 |
 | --- | --- |
 | `preview/*.webp` 截图 | 需要反映**最新**视觉的整窗截图（当前那份是较早版本） |
+| 输入卡片 82% 的残留穿透 | 滚动到会话底部时，下层历史文字仍会从输入卡透出来（82% 透射 18%，挡不住深色正文）。所有者**知情保留**：通透感优先，需要的人自己在面板里推高"输入框实度"。若要改默认值，必须同时做一次设置迁移（从 v5 读旧记录、只把仍是旧默认 0.82 的值抬上去），否则老用户本地存着的 0.82 会盖掉新默认。 |
 | Shiki 青灰主题 | DSH 有完整接口（12 个 `--shiki-*` 变量），已调研但**刻意未实施**，见 §11 |
 | 英文交接文档 | 本文件仅中文；README 是中英双语 |
 
@@ -140,6 +141,10 @@ profile package.json
 | 14 | Windows 上 install.ps1 中文乱码 | PowerShell 5.1 按 ANSI 读无 BOM 的 .ps1 | 给 .ps1 加 UTF-8 BOM | — |
 | 15 | `install.sh` 在 macOS/Linux 报 `/bin/bash^M` | Windows 检出把 LF 变 CRLF | 加 `.gitattributes`（`*.sh text eol=lf`） | — |
 | 16 | `pnpm install` 被发布年龄门槛拦下 | `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`（与本次安装无关的包） | 安装脚本自动降级重试 `--config.minimumReleaseAge=0` | — |
+| 17 | 侧栏版本号徽标是一块**深色实心胶囊**，是整片浅玻璃上唯一的硬黑块 | 组件拿 `label-primary` 当底色（`SidebarRoot.module.css`），而皮肤把该 token 绑成了正文深青 `#26383a` | 在侧栏作用域把它换回侧栏玻璃与次级文字（`[class*="buildVersion"]`，全仓库唯一类名），几何不动 | 版本徽标不再拿 label-primary 当底 |
+| 18 | 侧栏列表底部有一条横向亮带 | 官方 `.fade`（列表底部 24px 渐隐）渐到 `--dsw-specific-sidebar-fill`＝纯玻璃，而它上面的承托区还多一层 22% 白 | 承托末尾 24px 收尾到 0，与 `.fade` 的 24px 对齐——渐隐终点与该处合成色一致 | 列表承托在底部收尾到 0（2 条） |
+| 19 | "会话 / 工作区"区域标题几乎看不见 | 该标题在 `[class*="listArea"]` **之外**，读的是被压到弱化档的全局 `label-tertiary`（实测该处背景亮度仅 0.19，对比 1.19:1） | 在侧栏作用域提到分组标题档。**`.searchButton` 是 `color: inherit`，但父级 `.search` 自带颜色，不会被连带改到**——改这类规则前必须连同子元素一起追一遍 | 区域标题提到分组标题档 |
+| 20 | 会话统计行（"37 轮 · 306 步 …"）在照片上读不出来 | composer dock 卡片与正文一样落在照片上，却仍读全局弱化档 | 提到次级档：`[data-composer-card] ~ *`（渲染在输入卡之后的 dock 卡片）。实测 3.13:1 → 5.06:1 | 统计行提到次级档 |
 
 ---
 
@@ -193,7 +198,7 @@ git add -A && git commit -m "..." && git push origin main
 
 ## 8. 测试体系
 
-- 位置：`tests/smoke.mjs`，**129 条断言**，**测的是构建产物 `lib/client.js`**（DSH 装载的也是它，源码通过只是必要条件）
+- 位置：`tests/smoke.mjs`，**134 条断言**，**测的是构建产物 `lib/client.js`**（DSH 装载的也是它，源码通过只是必要条件）
 - 运行：需要 jsdom；本机可从 DSH 仓库的 pnpm store 借：
   `JSDOM_PATH=<repo>/node_modules/.pnpm/jsdom@29.1.1_@noble+hashes@2.3.0/node_modules/jsdom/lib/api.js node tests/smoke.mjs`
 - 面板在 Shadow DOM 内，测试通过 `host.shadowRoot` 查询
@@ -258,4 +263,4 @@ git add -A && git commit -m "..." && git push origin main
 
 1. **先读 §3 硬约束，再读 §6 坑表**——这个项目 90% 的返工都来自这两处没读。
 2. **改任何东西之前先读 DSH 源码**确认稳定选择器：`.md-code-block`、`[data-terminal]`、`[role="treeitem"]`、`[aria-selected="true"]`、`.listArea` 这些都是从源码里确认过的。
-3. **改动必须配断言**。这个仓库没有类型检查、没有 e2e，129 条断言就是全部安全网。
+3. **改动必须配断言**。这个仓库没有类型检查、没有 e2e，134 条断言就是全部安全网。

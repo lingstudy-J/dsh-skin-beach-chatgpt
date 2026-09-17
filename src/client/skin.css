@@ -344,11 +344,17 @@ body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) [
   --dsw-alias-label-dimmed: var(--beach-sidebar-muted);
   /* 承托的平衡点：0.18 → 0.10 太弱（纹理穿过文字），0.30 → 0.20 过重
      （整条磨砂柱、壁纸细节被吃掉）。取中间：0.22 → 0.14。
+     末尾 24px 收回 0：官方 .fade 是列表底部一条 24px 的渐隐遮罩，它渐到
+     --dsw-specific-sidebar-fill（皮肤绑成侧栏自己的玻璃色）。承托若一直
+     铺到列表底，渐隐的目标色就比它上面的承托区少一层白，两者在列表底部
+     叠出一条比周围更亮的横带。收尾到 0 之后，渐隐终点与该处的合成色一致，
+     底部不再出现可见分界。长度与官方 .fade 的 24px 对齐。
      它只是一层隐形的阅读辅助，不加边框、不加圆角、不加投影、不成卡片。 */
   background-image: linear-gradient(
     to bottom,
-    rgba(242, 246, 243, 0.22),
-    rgba(242, 246, 243, 0.14)
+    rgba(242, 246, 243, 0.22) 0%,
+    rgba(242, 246, 243, 0.14) calc(100% - 24px),
+    rgba(242, 246, 243, 0) 100%
   );
   /* 1.5px：只把文字背后的高频纹理（花朵、书本、木架的细线）稍微削平一档，
      不产生肉眼可见的毛玻璃，也不让侧栏与右侧壁纸割裂。挂在 listArea 这个
@@ -402,6 +408,24 @@ body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) :
 
 body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) [class*="iconButton"]:hover {
   color: var(--beach-link);
+}
+
+/* 品牌行的版本徽标。组件把它画成「label-primary 作底 + label-primary-inverted
+   作字」的一枚实心胶囊；皮肤把 label-primary 绑成了正文深青，于是它在整片
+   浅玻璃侧栏里成了一块唯一的硬黑方块。这里就地把底色与文字换回侧栏自己的
+   两支变量：亮色是青白玻璃配次级文字，暗色是深青配浅文字，两种主题都成立。
+   只改这两条声明，几何（10px 高、2px 圆角、6px 等宽字）保持组件原样。 */
+body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) [class*="buildVersion"] {
+  color: var(--beach-sidebar-muted);
+  background: var(--beach-sidebar-hover);
+}
+
+/* 列表上方的区域标题（"会话" / "工作区"）。这个标题行不在 [class*="listArea"]
+   里，因此读的是全局 label-tertiary —— 皮肤把它压到了弱化档，在照片背景上
+   几乎看不见，而紧挨着的项目名是深青 500，两者落差过大。提到分组标题这一档，
+   与下方列表的层次接上；行内的搜索按钮自带颜色，不受影响。 */
+body[data-dsh-beach-chatgpt] :is([class*="sidebarCol"], [data-pane="sidebar"]) [class*="sectionHeader"] {
+  color: var(--beach-sidebar-group);
 }
 
 /* 选中项/悬停态是交互反馈，不能被上面的透明规则抹掉。 */
@@ -534,6 +558,14 @@ body[data-dsh-beach-chatgpt] [data-composer-card]:focus-within {
 body[data-dsh-beach-chatgpt] [data-composer-card] [data-composer-input] {
   background-color: transparent;
   caret-color: var(--beach-sea);
+}
+
+/* 输入卡片之后的 composer dock 卡片（会话统计行）与正文一样落在照片上，
+   但它读的仍是全局 label-tertiary（弱化档），13px 的灰字压在壁纸亮部基本
+   读不出来。提到次级档：语义上它就是"次级信息"，与时间、路径同一层。
+   重绑 token 而不是直接设色 —— 行内的分隔符与将来的同类卡片一起跟上。 */
+body[data-dsh-beach-chatgpt] [data-composer-card] ~ * {
+  --dsw-alias-label-tertiary: var(--beach-ink-soft);
 }
 
 /* ── 代码块、终端、工具卡：一律不覆盖颜色 ───────────────────

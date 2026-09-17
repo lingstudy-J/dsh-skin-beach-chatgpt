@@ -118,8 +118,18 @@ check('label 重绑没有铺到整个侧栏', /:is\(\[class\*="sidebarCol"\][^{]
 check('底部 fade 绑到侧栏自身玻璃色', styleText.includes('--dsw-specific-sidebar-fill: rgb(var(--beach-sidebar-rgb)'), true)
 // 分组规则不得再命中项目名的文字容器（否则项目名会整体淡一档）
 check('分组规则不再命中 projectText', styleText.includes('[class*="projectText"]'), false)
+// 皮肤把 label-primary 绑成了正文深青，于是"拿 label-primary 当底色"的组件
+// 会在浅玻璃上变成深色实心块：品牌行的版本徽标就是这样一处覆盖盲区。
+check('版本徽标不再拿 label-primary 当底', /\[class\*="buildVersion"\][^{]*\{[^}]*background: var\(--beach-sidebar-hover\)/s.test(styleText), true)
+// 区域标题（"会话" / "工作区"）在 listArea 之外，读的是被压到弱化档的全局
+// label-tertiary —— 必须提到分组标题这一档才看得见。
+check('区域标题提到分组标题档', /\[class\*="sectionHeader"\][^{]*\{[^}]*color: var\(--beach-sidebar-group\)/s.test(styleText), true)
 check('局部承托只作用在 listArea', /\[class\*="listArea"\][^{]*\{[^}]*linear-gradient/s.test(styleText), true)
 check('列表承托取平衡点 0.22 → 0.14', /\[class\*="listArea"\][^{]*\{[^}]*rgba\(242, 246, 243, 0\.22\)/s.test(styleText), true)
+// 承托与官方 .fade 在列表底部会叠出一条比周围更亮的横带：收尾到 0 之后，
+// 渐隐的终点色与该处的合成色才是同一个。
+check('列表承托在底部收尾到 0', /\[class\*="listArea"\][^{]*\{[^}]*rgba\(242, 246, 243, 0\)/s.test(styleText), true)
+check('收尾长度与官方 .fade 的 24px 对齐', /\[class\*="listArea"\][^{]*\{[^}]*calc\(100% - 24px\)/s.test(styleText), true)
 check('listArea 背景模糊收到 1.5px', /\[class\*="listArea"\][^{]*\{[^}]*backdrop-filter: blur\(1\.5px\) saturate\(0\.96\)/s.test(styleText), true)
 // listArea 只是隐形的阅读辅助层，不得长成新的 UI 组件
 check('listArea 不加边框/圆角/投影', /\[class\*="listArea"\][^{]*\{[^}]*(border|border-radius|box-shadow):/s.test(styleText), false)
@@ -217,6 +227,8 @@ sliders[2].value = '100'
 sliders[2].dispatchEvent(new window.Event('input', { bubbles: true }))
 check('输入框实度可调到完全不透明', body.style.getPropertyValue('--beach-input-alpha'), '1')
 check('输入卡片用独立底色变量', /\[data-composer-card\][^{]*\{[^}]*var\(--beach-input-surface\)/.test(styleText), true)
+// 输入卡之后的 dock 卡片（会话统计行）同样落在照片上，弱化档读不出来。
+check('统计行提到次级档', /\[data-composer-card\]\s*~\s*\*[^{]*\{[^}]*--dsw-alias-label-tertiary: var\(--beach-ink-soft\)/s.test(styleText), true)
 clickByText('关')
 check('文字阴影可关闭', body.getAttribute('data-beach-text-shadow'), 'off')
 check('样式表含正文颜色基线', /\[data-chat-flow\][^{]*\{[^}]*color: var\(--beach-ink\)/.test(styleText), true)
